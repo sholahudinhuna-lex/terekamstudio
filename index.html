@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Terekam Studio — Photo & Video Production | terekam.web.id</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F8FAFC;--s1:#EFF6FF;--s2:#DBEAFE;--blue:#3B82F6;--blueh:#2563EB;--ink:#0F172A;--mute:#64748B;--r:16px;--bd:1px solid #DBEAFE;--ok:#16A34A;--err:#DC2626}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:"Plus Jakarta Sans",system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.65}
+h1,h2,h3,.logo{font-family:"Playfair Display",Georgia,serif;line-height:1.12;margin:0;font-weight:500}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer}
+img{max-width:100%;display:block}
+:focus-visible{outline:3px solid var(--blueh);outline-offset:2px}
+.wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+section{padding:96px 0;scroll-margin-top:72px}
+.s1{background:var(--s1)}
+.sh{max-width:560px;margin-bottom:40px}
+.sh h2{font-size:clamp(30px,4.2vw,44px);margin-bottom:10px}
+.sh h2 em{font-style:italic;color:var(--blueh)}
+.sh p{color:var(--mute);margin:0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid var(--blue);background:var(--blue);color:#fff;border-radius:99px;padding:12px 24px;font-weight:600;font-size:15px;transition:background .2s,transform .2s,box-shadow .2s}
+.btn:hover{background:var(--blueh);border-color:var(--blueh);transform:translateY(-2px);box-shadow:0 12px 24px -12px rgba(37,99,235,.7)}
+.btn:active{transform:scale(.96)}
+.btn.o{background:#fff;color:var(--blueh);border-color:var(--s2)}
+.btn.o:hover{background:var(--s1);border-color:var(--blue);box-shadow:none}
+.btn:disabled{opacity:.45;pointer-events:none}
+.btn.sm{padding:9px 18px;font-size:14px}
+/* nav */
+header{position:sticky;top:0;z-index:50;background:rgba(248,250,252,.72);backdrop-filter:blur(16px) saturate(160%);-webkit-backdrop-filter:blur(16px) saturate(160%);border-bottom:var(--bd)}
+.nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:70px}
+.logo{font-size:27px;font-weight:700}
+.logo span{color:var(--blue)}
+.menu{display:flex;gap:30px}
+.menu a{font-weight:500;font-size:15px;color:var(--mute);transition:color .2s}
+.menu a:hover{color:var(--blueh)}
+.menu .mob{display:none}
+.nav .desk{justify-self:end}
+.burger{display:none;justify-self:end;width:44px;height:44px;border:var(--bd);background:#fff;border-radius:12px;padding:0;position:relative}
+.burger i,.burger i::before,.burger i::after{position:absolute;left:12px;width:18px;height:2px;background:var(--ink);transition:.25s;content:"";border-radius:2px}
+.burger i{top:21px}.burger i::before{top:-6px;left:0}.burger i::after{top:6px;left:0}
+.burger[aria-expanded="true"] i{background:transparent}
+.burger[aria-expanded="true"] i::before{top:0;transform:rotate(45deg)}
+.burger[aria-expanded="true"] i::after{top:0;transform:rotate(-45deg)}
+/* hero */
+.hero{padding:56px 0 100px;overflow:hidden}
+.hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+.badge{display:inline-block;border:var(--bd);background:var(--s1);color:var(--blueh);font-weight:600;font-size:13px;padding:6px 15px;border-radius:99px;margin-bottom:22px}
+.hero h1{font-size:clamp(40px,6.2vw,76px);margin-bottom:20px;letter-spacing:-.02em}
+.hero h1 em{font-style:italic;color:var(--blueh)}
+.hero p{color:var(--mute);font-size:18px;max-width:46ch;margin:0 0 30px}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+.proof{display:flex;gap:28px;margin-top:38px;flex-wrap:wrap}
+.proof b{display:block;font-family:"Playfair Display",serif;font-size:26px;font-weight:700}
+.proof span{font-size:13.5px;color:var(--mute)}
+.col{position:relative;height:540px}
+.col button{position:absolute;border:var(--bd);padding:6px;background:#fff;border-radius:22px;overflow:hidden;transition:transform .35s,box-shadow .35s;box-shadow:0 24px 50px -28px rgba(37,99,235,.55)}
+.col button:hover{transform:translateY(-6px) rotate(0)!important;z-index:5}
+.col img{width:100%;height:100%;object-fit:cover;border-radius:16px}
+.c1{left:0;top:30px;width:56%;height:380px;transform:rotate(-3deg)}
+.c2{right:0;top:0;width:44%;height:250px;transform:rotate(4deg)}
+.c3{right:6%;bottom:0;width:38%;height:290px;transform:rotate(-2deg)}
+.c3 .pl{position:absolute;inset:0;display:grid;place-items:center}
+.pl i{width:54px;height:54px;border-radius:50%;background:rgba(255,255,255,.88);display:grid;place-items:center;color:var(--blueh);font-style:normal;font-size:20px;padding-left:4px;box-shadow:0 8px 20px -6px rgba(15,23,42,.4)}
+.rec{position:absolute;left:14px;top:14px;background:rgba(15,23,42,.65);color:#fff;font-size:11.5px;font-weight:600;padding:3px 10px;border-radius:99px}
+.chipf{position:absolute;left:4%;bottom:40px;background:#fff;border:var(--bd);border-radius:14px;padding:10px 16px;font-size:13px;box-shadow:0 14px 30px -16px rgba(37,99,235,.5);z-index:6}
+.chipf b{display:block;font-size:17px}
+/* tabs & gallery */
+.tabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:30px}
+.tab{border:var(--bd);background:#fff;color:var(--ink);border-radius:99px;padding:9px 20px;font-weight:600;font-size:14px;transition:.2s}
+.tab:hover{border-color:var(--blue)}
+.tab.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px}
+.it{border:var(--bd);padding:5px;background:#fff;border-radius:20px;position:relative;aspect-ratio:4/5;transition:opacity .28s,transform .28s,box-shadow .3s;overflow:hidden}
+.it.out{opacity:0;transform:scale(.92)}
+.it[hidden]{display:none}
+.it:hover{box-shadow:0 22px 40px -26px rgba(37,99,235,.6)}
+.it img{width:100%;height:100%;object-fit:cover;border-radius:15px;transition:transform .5s}
+.it:hover img{transform:scale(1.05)}
+.tp{position:absolute;left:16px;top:16px;background:rgba(255,255,255,.92);color:var(--ink);font-size:12px;font-weight:700;padding:4px 11px;border-radius:99px;display:flex;gap:5px;align-items:center}
+.tp.v{background:var(--blue);color:#fff}
+.it .cap{position:absolute;left:5px;right:5px;bottom:5px;padding:38px 14px 12px;border-radius:0 0 15px 15px;color:#fff;text-align:left;font-weight:600;background:linear-gradient(transparent,rgba(15,23,42,.78));opacity:0;transform:translateY(8px);transition:.25s}
+.it .cap small{display:block;font-weight:400;opacity:.85}
+.it:hover .cap,.it:focus-visible .cap{opacity:1;transform:none}
+.it .pl{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none}
+/* pricing */
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.plan{background:#fff;border:var(--bd);border-radius:24px;padding:34px 28px;display:flex;flex-direction:column;position:relative;transition:transform .25s,box-shadow .25s}
+.plan:hover{transform:translateY(-5px);box-shadow:0 26px 44px -28px rgba(37,99,235,.5)}
+.plan.pop{border:2px solid var(--blue);background:linear-gradient(#fff,var(--s1))}
+.tag{position:absolute;top:-14px;left:28px;background:var(--blue);color:#fff;font-size:12.5px;font-weight:700;padding:5px 14px;border-radius:99px}
+.plan h3{font-size:26px}
+.plan .d{color:var(--mute);font-size:14.5px;margin:6px 0 0}
+.plan .pr{font-family:"Playfair Display",serif;font-size:34px;font-weight:700;margin:16px 0 4px}
+.plan .pr small{font-family:"Plus Jakarta Sans",sans-serif;font-size:13px;color:var(--mute);font-weight:500}
+.plan ul{list-style:none;padding:0;margin:16px 0 28px;flex:1}
+.plan li{padding:7px 0 7px 28px;position:relative;font-size:15px;color:#334155}
+.plan li::before{content:"✓";position:absolute;left:0;color:var(--blueh);font-weight:700}
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.stp{background:#fff;border:var(--bd);border-radius:24px;padding:30px;transition:transform .25s,border-color .25s}
+.stp:hover{transform:translateY(-4px);border-color:var(--blue)}
+.stp .n{width:46px;height:46px;border-radius:50%;background:var(--s2);color:var(--blueh);display:grid;place-items:center;font-family:"Playfair Display",serif;font-weight:700;font-size:20px;margin-bottom:18px}
+.stp h3{font-size:23px;margin-bottom:8px}
+.stp p{color:var(--mute);margin:0 0 16px;font-size:15px}
+.lk{background:none;border:0;padding:0;color:var(--blueh);font-weight:600;font-size:14.5px;border-bottom:1px solid var(--s2);transition:border-color .2s}
+.lk:hover{border-color:var(--blueh)}
+/* reviews */
+.revs{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.rev{background:#fff;border:var(--bd);border-radius:24px;padding:28px}
+.rev .s{color:#F59E0B;letter-spacing:2px;font-size:14px}
+.rev p{margin:10px 0 20px;font-size:16px}
+.who{display:flex;gap:12px;align-items:center;font-weight:600;font-size:14.5px}
+.who i{width:42px;height:42px;border-radius:50%;background:var(--s2);color:var(--blueh);display:grid;place-items:center;font-style:normal;font-weight:700}
+.hdl{display:block;border:0;background:none;padding:0;color:var(--blueh);font-weight:500;font-size:13.5px}
+.hdl:hover{text-decoration:underline}
+/* footer */
+footer{background:var(--ink);color:#CBD5E1;padding:60px 0 26px}
+.fg{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:36px}
+footer .logo{color:#fff;margin-bottom:10px}
+footer h4{color:#fff;margin:0 0 12px;font-size:15px}
+footer ul{list-style:none;margin:0;padding:0}
+footer li{padding:4px 0}
+footer a,footer .fl{color:#CBD5E1;background:none;border:0;padding:0;font-size:inherit;transition:color .2s}
+footer a:hover,footer .fl:hover{color:#93C5FD}
+.copy{border-top:1px solid #1E293B;margin-top:38px;padding-top:20px;font-size:13.5px}
+/* viewer */
+.vw{position:fixed;inset:0;z-index:90;background:rgba(8,15,32,.95);display:none;align-items:center;justify-content:center;padding:20px}
+.vw.on{display:flex}
+.vw figure{margin:0;width:100%;max-width:880px;color:#fff}
+.stage{position:relative;border-radius:var(--r);overflow:hidden;background:#000;max-height:68vh;display:flex;justify-content:center}
+.stage img{max-height:68vh;width:auto;max-width:100%;object-fit:contain}
+.stage.isv{aspect-ratio:16/10}
+.stage.isv img{width:100%;height:100%;object-fit:cover;animation:kb 14s ease-in-out infinite alternate;animation-play-state:paused}
+.stage.isv.playing img{animation-play-state:running}
+@keyframes kb{from{transform:scale(1)}to{transform:scale(1.14) translate(-2%,-1%)}}
+.bigp{position:absolute;inset:0;display:none;place-items:center;border:0;background:rgba(8,15,32,.25)}
+.stage.isv .bigp{display:grid}
+.stage.playing .bigp{display:none}
+.bigp i{width:76px;height:76px;border-radius:50%;background:rgba(255,255,255,.92);color:var(--blueh);display:grid;place-items:center;font-size:28px;font-style:normal;padding-left:5px;transition:transform .2s}
+.bigp:hover i{transform:scale(1.08)}
+.ctl{display:none;align-items:center;gap:12px;margin-top:12px}
+.ctl.on{display:flex}
+.ib{width:42px;height:42px;border-radius:50%;border:0;background:rgba(255,255,255,.14);color:#fff;font-size:15px;transition:.2s;flex:none}
+.ib:hover{background:var(--blue)}
+.prog{flex:1;height:8px;border-radius:99px;background:rgba(255,255,255,.2);cursor:pointer;position:relative}
+.prog b{position:absolute;left:0;top:0;bottom:0;border-radius:99px;background:var(--blue);width:0}
+.tm{font-size:13px;font-variant-numeric:tabular-nums;opacity:.85;min-width:84px;text-align:right}
+.vw figcaption{margin-top:14px}
+.vw figcaption b{font-family:"Playfair Display",serif;font-size:24px;font-weight:500;display:block}
+.vw figcaption span{opacity:.75;font-size:14px}
+.vw .nx,.vw .pv,.vw .cl{position:absolute;width:48px;height:48px;font-size:24px}
+.vw .pv{left:16px;top:50%}.vw .nx{right:16px;top:50%}.vw .cl{right:16px;top:16px}
+/* modal */
+.modal{position:fixed;inset:0;z-index:100;background:rgba(15,23,42,.55);display:none;align-items:flex-start;justify-content:center;padding:24px 14px;overflow-y:auto}
+.modal.on{display:flex}
+.box{background:var(--bg);border-radius:24px;width:100%;max-width:580px;padding:32px 28px;position:relative;margin:auto;animation:pop .3s ease}
+@keyframes pop{from{opacity:0;transform:translateY(14px) scale(.98)}}
+.x{position:absolute;right:14px;top:14px;width:38px;height:38px;border-radius:50%;border:0;background:var(--s2);font-size:22px;line-height:1;color:var(--ink)}
+.x:hover{background:#BFDBFE}
+.pg{display:flex;list-style:none;margin:0 44px 24px 0;padding:0;gap:6px}
+.pg li{flex:1;font-size:12.5px;font-weight:600;color:var(--mute);padding-top:10px;border-top:4px solid var(--s2);transition:.3s}
+.pg li.on{border-color:var(--blue);color:var(--blueh)}
+.pg li.done{border-color:var(--blueh);color:var(--blueh)}
+.st{display:none}.st.on{display:block}
+.box h3{font-size:27px;margin-bottom:6px}
+.sel{background:var(--s1);border:var(--bd);border-radius:var(--r);padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:10px;margin:14px 0 4px}
+.sel b{font-size:17px;color:var(--blueh)}
+.f{margin-top:14px}
+.f label,.f .lab{display:block;font-weight:600;font-size:14px;margin-bottom:6px}
+.f label small,.lab small{font-weight:400;color:var(--mute)}
+.f input[type=text],.f input[type=tel],.f input[type=date],.f select{width:100%;padding:12px 14px;border:1px solid #BFDBFE;border-radius:12px;font:inherit;background:#fff;color:var(--ink);transition:border .2s,box-shadow .2s}
+.f input:focus,.f select:focus{outline:0;border-color:var(--blue);box-shadow:0 0 0 4px rgba(59,130,246,.15)}
+.f.bad input,.f.bad select{border-color:var(--err)}
+.em{display:none;color:var(--err);font-size:13px;margin-top:4px}
+.f.bad .em{display:block}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ao{display:flex;gap:12px;align-items:center;border:var(--bd);background:#fff;border-radius:12px;padding:11px 14px;margin-bottom:8px;cursor:pointer;transition:.2s}
+.ao:hover{border-color:var(--blue)}
+.ao input{accent-color:var(--blueh);width:18px;height:18px;flex:none}
+.ao span{flex:1;font-size:14.5px}
+.ao b{font-size:13.5px;color:var(--blueh);white-space:nowrap}
+.ao:has(input:checked){background:var(--s1);border-color:var(--blue)}
+.pay{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pay label{border:1px solid #BFDBFE;border-radius:12px;padding:12px 14px;background:#fff;font-weight:600;cursor:pointer;transition:.2s;display:block;margin:0}
+.pay input{position:absolute;opacity:0;width:0}
+.pay label:has(input:checked){border-color:var(--blue);background:var(--s1)}
+.pay label:has(input:focus-visible){outline:3px solid var(--blueh)}
+.pay small{display:block;color:var(--mute);font-weight:400}
+.totbar{display:flex;justify-content:space-between;align-items:center;margin-top:20px;padding:14px 16px;background:var(--ink);color:#fff;border-radius:var(--r)}
+.totbar b{font-family:"Playfair Display",serif;font-size:24px;font-weight:700}
+.row{display:flex;gap:10px;margin-top:18px}
+.row .btn{flex:1}
+.timer{text-align:center;background:var(--s1);border:var(--bd);border-radius:var(--r);padding:14px;margin:14px 0}
+.timer small{color:var(--mute);display:block}
+.timer b{font-size:34px;font-variant-numeric:tabular-nums;font-family:"Playfair Display",serif}
+.timer.exp b{color:var(--err)}
+.bk{border:var(--bd);background:#fff;border-radius:var(--r);padding:6px 16px;margin-bottom:14px}
+.bk div{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px dashed var(--s2);font-size:14.5px}
+.bk div:last-child{border:0}
+.bk span{color:var(--mute)}
+.bk .big{font-weight:700;color:var(--blueh);font-size:17px}
+.mt{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.mt .tab{flex:1;border-radius:12px;text-align:center}
+.mt .tab.on{background:var(--blue);border-color:var(--blue)}
+.mp{display:none;background:#fff;border:var(--bd);border-radius:var(--r);padding:16px;text-align:center}
+.mp.on{display:block}
+.rek{font-size:22px;font-weight:700;letter-spacing:1px;margin:4px 0 12px}
+.qr{width:176px;height:176px;margin:0 auto 6px;border:var(--bd);border-radius:12px;padding:8px}
+.up{margin-top:14px;border:2px dashed #BFDBFE;border-radius:var(--r);padding:16px;text-align:center;background:#fff;cursor:pointer;transition:.2s;display:block;font-size:14.5px}
+.up:hover{border-color:var(--blue);background:var(--s1)}
+.up input{display:none}
+.up.ok{border-style:solid;border-color:var(--blueh);color:var(--blueh);font-weight:600}
+.ck{width:78px;height:78px;margin:0 auto 10px;display:block}
+.ck circle{fill:var(--s1);stroke:var(--blue);stroke-width:3;stroke-dasharray:226;stroke-dashoffset:226;animation:dr .7s .1s forwards}
+.ck path{fill:none;stroke:var(--blueh);stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:50;stroke-dashoffset:50;animation:dr .4s .7s forwards}
+@keyframes dr{to{stroke-dashoffset:0}}
+.tk{margin-top:18px;border:var(--bd);border-radius:20px;overflow:hidden;background:#fff;position:relative}
+.tk .top{background:linear-gradient(135deg,var(--blue),var(--blueh));color:#fff;padding:18px 20px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.tk .top small{opacity:.85;display:block;font-size:12px}
+.tk .top b{font-family:"Playfair Display",serif;font-size:26px;letter-spacing:1px}
+.tk .top em{font-style:normal;font-size:12px;font-weight:700;background:rgba(255,255,255,.2);padding:4px 11px;border-radius:99px}
+.tk dl{margin:0;padding:6px 20px}
+.dr{display:flex;justify-content:space-between;gap:14px;padding:9px 0;border-bottom:1px dashed var(--s2);font-size:14px}
+.dr:last-child{border:0}
+.dr dt{color:var(--mute)}.dr dd{margin:0;font-weight:600;text-align:right}
+.stub{border-top:2px dashed var(--s2);position:relative;padding:14px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.stub::before,.stub::after{content:"";position:absolute;top:-11px;width:20px;height:20px;border-radius:50%;background:var(--bg);border:var(--bd)}
+.stub::before{left:-11px}.stub::after{right:-11px}
+.bar{height:40px;flex:1;max-width:210px;background:repeating-linear-gradient(90deg,var(--ink) 0 2px,transparent 2px 4px,var(--ink) 4px 5px,transparent 5px 9px,var(--ink) 9px 12px,transparent 12px 14px)}
+.stat{display:inline-block;background:var(--s2);color:var(--blueh);padding:2px 10px;border-radius:99px;font-size:12.5px}
+.toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,30px);background:var(--ink);color:#fff;padding:11px 20px;border-radius:99px;font-size:14px;font-weight:600;opacity:0;pointer-events:none;transition:.3s;z-index:200;max-width:92vw;text-align:center}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+@media(max-width:920px){
+ .hero .wrap{grid-template-columns:1fr}
+ .col{height:470px;max-width:520px}
+ .plans,.revs,.steps,.fg{grid-template-columns:1fr}
+ .nav{grid-template-columns:1fr auto}
+ .nav .desk{display:none}
+ .burger{display:block}
+ .menu{position:absolute;top:70px;left:0;right:0;background:rgba(248,250,252,.97);flex-direction:column;gap:0;padding:6px 24px 20px;border-bottom:var(--bd);display:none}
+ .menu.on{display:flex}
+ .menu a{padding:15px 0;border-bottom:var(--bd);font-size:16px}
+ .menu .mob{display:inline-flex;margin-top:16px;border:1px solid var(--blue);color:#fff;justify-content:center}
+ section{padding:68px 0}
+}
+@media(max-width:520px){.two,.pay{grid-template-columns:1fr}.box{padding:26px 18px}.vw .pv{left:6px}.vw .nx{right:6px}.col{height:420px}.c1{height:310px}.c2{height:200px}.c3{height:230px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+@media print{
+ header,main,footer,.vw,.toast,.pg,.x,.no-print,#st1,#st2{display:none!important}
+ body{background:#fff}
+ .modal{position:static;display:block!important;background:none;padding:0}
+ .box{max-width:100%;padding:0;animation:none;background:#fff}
+ #st3{display:block!important}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="#home" aria-label="terekam. beranda">terekam<span>.</span></a>
+    <nav class="menu" id="menu" aria-label="Menu utama">
+      <a href="#karya">Karya</a><a href="#harga">Layanan &amp; Harga</a><a href="#cara">Cara Kerja</a><a href="#testimoni">Testimoni</a>
+      <a class="btn mob" href="#harga">Booking Now</a>
+    </nav>
+    <a class="btn sm desk" href="#harga">Booking Now</a>
+    <button class="burger" id="burger" aria-label="Buka menu" aria-expanded="false" aria-controls="menu"><i></i></button>
+  </div>
+</header>
+
+<main>
+<section class="hero" id="home" style="scroll-margin-top:0">
+  <div class="wrap">
+    <div>
+      <span class="badge">✦ Photo &amp; Video Production</span>
+      <h1>Capture Your Vibe, <em>Frame</em> Every Story.</h1>
+      <p>Foto wisuda, couple session, sampai reels cinematic siap upload. Booking jadwal dan bayar DP langsung dari sini.</p>
+      <div class="cta">
+        <a class="btn" href="#harga">Lihat Paket &amp; Harga</a>
+        <button class="btn o" id="reel">▶ Lihat Showreel</button>
+      </div>
+      <div class="proof"><div><b>1.200+</b><span>sesi selesai</span></div><div><b>4,9/5</b><span>rating klien</span></div><div><b>3 hari</b><span>file diterima</span></div></div>
+    </div>
+    <div class="col" aria-label="Kolase karya">
+      <button class="c1" data-open="2" aria-label="Buka foto Janji di Taman"></button>
+      <button class="c2" data-open="1" aria-label="Buka foto Toga dan Golden Hour"></button>
+      <button class="c3" data-open="0" aria-label="Putar showreel"></button>
+      <div class="chipf"><b>✦ Reels-ready</b>vertikal 9:16 · 60 detik</div>
+    </div>
+  </div>
+</section>
+
+<section class="s1" id="karya">
+  <div class="wrap">
+    <div class="sh"><h2>Karya <em>terbaru</em></h2><p>Filter kategori, lalu klik karya untuk melihat foto atau memutar preview video.</p></div>
+    <div class="tabs" id="tabs" role="group" aria-label="Filter karya">
+      <button class="tab on" data-f="all">Semua</button>
+      <button class="tab" data-f="Wisuda">Wisuda</button>
+      <button class="tab" data-f="Wedding &amp; Couple">Wedding &amp; Couple</button>
+      <button class="tab" data-f="Video Reels / Cinematic">Video Reels / Cinematic</button>
+      <button class="tab" data-f="Brand &amp; Produk">Brand &amp; Produk</button>
+    </div>
+    <div class="gal" id="gal"></div>
+  </div>
+</section>
+
+<section id="harga">
+  <div class="wrap">
+    <div class="sh"><h2>Layanan &amp; <em>harga</em></h2><p>Pilih satu paket, lalu tambah add-on sesuai kebutuhan di langkah booking.</p></div>
+    <div class="plans">
+      <article class="plan">
+        <h3>Photo Session</h3><p class="d">Wisuda, personal, atau couple.</p>
+        <div class="pr">Rp 350.000<small> mulai dari</small></div>
+        <ul><li>Durasi 1 jam, 1 fotografer</li><li>30 foto hasil edit</li><li>File via Google Drive</li><li>Konsultasi konsep &amp; lokasi</li></ul>
+        <button class="btn o" data-plan="photo">Pilih Paket</button>
+      </article>
+      <article class="plan pop">
+        <span class="tag">Most Loved ✦</span>
+        <h3>Photo + Video Reels</h3><p class="d">Satu sesi, dua jenis konten.</p>
+        <div class="pr">Rp 950.000</div>
+        <ul><li>Durasi 2 jam</li><li>30 foto hasil edit</li><li>1 video cinematic vertikal 60 detik</li><li>Siap upload IG Reels / TikTok</li><li>Transisi &amp; color grading estetik</li></ul>
+        <button class="btn" data-plan="combo">Pilih Paket</button>
+      </article>
+      <article class="plan">
+        <h3>Full Cinematic Event</h3><p class="d">Wedding, engagement, atau event.</p>
+        <div class="pr">Rp 2.200.000</div>
+        <ul><li>1 fotografer + 1 videografer</li><li>Video highlight 3–5 menit</li><li>Teaser 1 menit untuk sosmed</li><li>Foto hasil edit tanpa batas jumlah</li><li>Backup file di cloud 6 bulan</li></ul>
+        <button class="btn o" data-plan="event">Pilih Paket</button>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="s1" id="cara">
+  <div class="wrap">
+    <div class="sh"><h2>Cara kerja, <em>3 langkah</em></h2><p>Dari booking sampai file di tanganmu.</p></div>
+    <div class="steps">
+      <div class="stp"><div class="n">1</div><h3>Pilih paket &amp; jadwal</h3><p>Pilih paket, tambah add-on, tentukan tanggal dan jam sesi, lalu bayar DP.</p><button class="lk" data-go="harga">Pilih paket</button></div>
+      <div class="stp"><div class="n">2</div><h3>Sesi foto atau shooting</h3><p>Kami datang ke lokasimu dan mengarahkan gaya secara santai.</p><a class="lk" href="https://wa.me/628561186124?text=Halo%20Terekam%20Studio%2C%20saya%20mau%20tanya%20jadwal." target="_blank" rel="noopener">Tanya jadwal via WhatsApp</a></div>
+      <div class="stp"><div class="n">3</div><h3>Terima file dalam 3 hari</h3><p>Foto dan video hasil edit dikirim lewat Google Drive.</p><button class="lk" data-go="karya">Lihat contoh hasil</button></div>
+    </div>
+  </div>
+</section>
+
+<section id="testimoni">
+  <div class="wrap">
+    <div class="sh"><h2>Kata <em>mereka</em></h2><p>Klik handle Instagram untuk melihat detailnya.</p></div>
+    <div class="revs">
+      <div class="rev"><div class="s">★★★★★</div><p>“Reels wisudaku dipakai di IG dan langsung ramai. Hasilnya sinematik banget, padahal aku kaku di depan kamera.”</p><div class="who"><i>A</i><div>Noer Alya<button class="hdl" data-h="@alyaputri.fr">@alyaputri.fr</button></div></div></div>
+      <div class="rev"><div class="s">★★★★★</div><p>“Couple session-nya santai, kami malah disuruh ngobrol dan hasilnya natural. Foto dikirim sebelum 3 hari.”</p><div class="who"><i>R</i><div>Dilan &amp; Milea<button class="hdl" data-h="@ranidimas.story">@ranidimas.story</button></div></div></div>
+      <div class="rev"><div class="s">★★★★★</div><p>“Video launching brand kami rapi dan cepat. Paket Photo + Video paling worth it untuk bisnis kecil.”</p><div class="who"><i>B</i><div>Praba, Kopi Senja<button class="hdl" data-h="@kopisenja.id">@kopisenja.id</button></div></div></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="fg">
+      <div><div class="logo">terekam<span style="color:#60A5FA">.</span></div><p>Photo &amp; video production untuk momen yang layak diingat.<br>terekam.web.id</p></div>
+      <div><h4>Tautan cepat</h4><ul>
+        <li><button class="fl" data-go="karya">Karya</button></li><li><button class="fl" data-go="harga">Layanan &amp; Harga</button></li><li><button class="fl" data-go="cara">Cara Kerja</button></li><li><button class="fl" data-go="testimoni">Testimoni</button></li></ul></div>
+      <div><h4>Ikuti &amp; hubungi</h4><ul>
+        <li><a href="https://www.instagram.com/prabawidyaaaaaa/" target="_blank" rel="noopener">Instagram</a></li>
+        <li><a href="https://tiktok.com" target="_blank" rel="noopener">TikTok</a></li>
+        <li><a href="https://wa.me/628561186124" target="_blank" rel="noopener">WhatsApp</a></li>
+        <li><a href="admin.html">Login Admin</a></li></ul></div>
+    </div>
+    <div class="copy">© 2026 Terekam Studio. Clickable prototype untuk tugas kuliah.</div>
+  </div>
+</footer>
+
+<!-- Media viewer -->
+<div class="vw" id="vw" role="dialog" aria-modal="true" aria-label="Pratinjau karya">
+  <button class="ib cl" id="vx" aria-label="Tutup">×</button>
+  <button class="ib pv" id="vp" aria-label="Sebelumnya">‹</button>
+  <figure>
+    <div class="stage" id="stage"><img id="vi" alt=""><button class="bigp" id="bigp" aria-label="Putar video"><i>▶</i></button></div>
+    <div class="ctl" id="ctl"><button class="ib" id="pp" aria-label="Putar atau jeda">▶</button><div class="prog" id="prog"><b id="pb"></b></div><span class="tm" id="tm">0:00 / 0:00</span><button class="ib" id="mu" aria-label="Suara">🔊</button></div>
+    <figcaption><b id="vt"></b><span id="vc"></span></figcaption>
+  </figure>
+  <button class="ib nx" id="vn" aria-label="Berikutnya">›</button>
+</div>
+
+<!-- Booking modal -->
+<div class="modal" id="modal" aria-hidden="true">
+  <div class="box" role="dialog" aria-modal="true" aria-labelledby="mt1">
+    <button class="x" id="mx" aria-label="Tutup">×</button>
+    <ol class="pg" id="pg"><li class="on">1. Jadwal</li><li>2. Pembayaran</li><li>3. E-Ticket</li></ol>
+
+    <div class="st on" id="st1">
+      <h3 id="mt1">Atur Jadwal &amp; Kustomisasi</h3>
+      <div class="sel"><div><small style="color:var(--mute)">Paket terpilih</small><div id="pn" style="font-weight:600"></div></div><b id="pb2"></b></div>
+      <form id="form" novalidate>
+        <div class="f"><span class="lab">Add-on <small>(opsional)</small></span><div id="aos"></div></div>
+        <div class="f"><label for="nm">Nama Lengkap</label><input type="text" id="nm" autocomplete="name" placeholder="Contoh: Arya Boomingraka"><div class="em">Nama wajib diisi (min. 3 huruf).</div></div>
+        <div class="two">
+          <div class="f"><label for="wa">Nomor WhatsApp</label><input type="tel" id="wa" inputmode="tel" autocomplete="tel" placeholder="081234567890"><div class="em">Isi nomor valid (08xx / 62xx).</div></div>
+          <div class="f"><label for="ig">Instagram <small>(opsional)</small></label><input type="text" id="ig" placeholder="@username"><div class="em">Username Instagram tidak valid.</div></div>
+        </div>
+        <div class="two">
+          <div class="f"><label for="dt">Tanggal Acara</label><input type="date" id="dt"><div class="em">Pilih tanggal mulai hari ini.</div></div>
+          <div class="f"><label for="tm2">Jam Sesi</label><select id="tm2"><option value="">Pilih sesi</option><option>Golden Hour Pagi (06.00–09.00)</option><option>Siang (10.00–14.00)</option><option>Golden Hour Sore (15.30–18.00)</option></select><div class="em">Pilih jam sesi.</div></div>
+        </div>
+        <div class="f"><label for="lc">Lokasi</label><input type="text" id="lc" placeholder="Contoh: Kampus UIN GUSDUR, Pekalongan"><div class="em">Lokasi wajib diisi.</div></div>
+        <div class="f"><span class="lab">Pembayaran</span>
+          <div class="pay">
+            <label><input type="radio" name="py" value="dp" checked>DP 50%<small id="dpv"></small></label>
+            <label><input type="radio" name="py" value="full">Lunas 100%<small id="fv"></small></label>
+          </div></div>
+        <div class="totbar"><span>Total biaya</span><b id="tot"></b></div>
+        <div class="row"><button type="submit" class="btn">Lanjut ke Pembayaran</button></div>
+      </form>
+    </div>
+
+    <div class="st" id="st2">
+      <h3>Pembayaran Instan</h3>
+      <div class="timer" id="tmr"><small>Jadwalmu dikunci selama</small><b id="cd">02:00:00</b></div>
+      <div class="bk" id="bk"></div>
+      <div class="mt" id="mt"><button class="tab on" data-m="qris" type="button">QRIS</button><button class="tab" data-m="bca" type="button">BCA</button><button class="tab" data-m="mandiri" type="button">Mandiri</button></div>
+      <div class="mp on" id="m-qris"><div class="qr" id="qr"></div><small style="color:var(--mute)">Scan dengan e-wallet atau m-banking</small></div>
+      <div class="mp" id="m-bca"><small style="color:var(--mute)">BCA a.n. Terekam Studio</small><div class="rek">8830 1234 56</div><button class="btn o sm" type="button" data-copy="8830123456">Salin No. Rekening</button></div>
+      <div class="mp" id="m-mandiri"><small style="color:var(--mute)">Mandiri a.n. Terekam Studio</small><div class="rek">1370 0123 4567 8</div><button class="btn o sm" type="button" data-copy="1370012345678">Salin No. Rekening</button></div>
+      <label class="up" id="up"><input type="file" id="file" accept="image/*,.pdf"><span id="upt">Klik untuk upload bukti bayar</span></label>
+      <div class="em" id="upe" style="color:var(--err);font-size:13px;margin-top:6px">Upload bukti bayar terlebih dahulu.</div>
+      <div class="row"><button class="btn o" id="b1" type="button">Kembali</button><button class="btn" id="done" type="button">Konfirmasi Pembayaran</button></div>
+    </div>
+
+    <div class="st" id="st3">
+      <svg class="ck" viewBox="0 0 80 80" aria-hidden="true"><circle cx="40" cy="40" r="36"/><path d="M24 41l11 11 21-23"/></svg>
+      <h3 style="text-align:center">Booking Confirmed!</h3>
+      <p style="text-align:center;color:var(--mute);margin:6px 0 0">Admin akan memverifikasi pembayaranmu. Simpan e-ticket ini sebagai bukti booking.</p>
+      <div class="tk"><div class="top"><div><small>Kode Booking</small><b id="code"></b></div><em id="tst"></em></div><dl id="sum"></dl><div class="stub"><span style="font-size:13px;color:var(--mute)">terekam.web.id<br>Photo &amp; Video Production</span><div class="bar" aria-hidden="true"></div></div></div>
+      <div class="row no-print"><button class="btn o" id="prt" type="button">Simpan / Cetak Tiket</button><a class="btn" id="wal" target="_blank" rel="noopener" href="https://wa.me/628561186124">Kirim ke WhatsApp Studio</a></div>
+      <div class="row no-print"><button class="btn o" id="fin" type="button">Selesai</button></div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(function(){
+"use strict";
+var $=function(s,r){return (r||document).querySelector(s)};
+var $$=function(s,r){return [].slice.call((r||document).querySelectorAll(s))};
+var WA="628561186124";
+var DBK="terekam_db_v1",bc=null;
+try{bc=new BroadcastChannel("terekam")}catch(e){}
+function dbRead(){try{return JSON.parse(localStorage.getItem(DBK))||{}}catch(e){return {}}}
+function dbWrite(d){try{localStorage.setItem(DBK,JSON.stringify(d))}catch(e){}if(bc)try{bc.postMessage("db")}catch(e){}}
+function img(id,w){
+ if(/^(https?:|data:)/.test(id))return id;
+ if(id.indexOf("dl:")===0)return "https://unsplash.com/photos/"+id.slice(3)+"/download?force=true&w="+(w||900);
+ return "https://images.unsplash.com/photo-"+id+"?auto=format&fit=crop&w="+(w||900)+"&q=80"
+}
+var W="Wisuda",C="Wedding & Couple",V="Video Reels / Cinematic",B="Brand & Produk";
+var ITEMS=[
+ {t:"Showreel 2026",c:V,v:1,d:48,i:"1492684223066-81342ee5ff30"},
+ {t:"Toga & Golden Hour",c:W,i:"dl:QfrTfjHzQIU"},
+ {t:"Janji di Taman",c:C,i:"1519741497674-611481863552"},
+ {t:"Graduation Day Reels",c:V,v:1,d:30,i:"1541339907198-e08756dedf3f"},
+ {t:"Watch Series",c:B,i:"1523275335684-37898b6baf30"},
+ {t:"Lempar Topi",c:W,i:"1627556704302-624286467c65"},
+ {t:"Couple Cinematic Teaser",c:V,v:1,d:45,i:"1511285560929-80b456fea0bc"},
+ {t:"Bridal Soft Light",c:C,i:"1465495976277-4387d4b0b4c6"},
+ {t:"Skincare Flatlay",c:B,i:"1556228720-195a672e8a03"},
+ {t:"Brand Launch Reel",c:V,v:1,d:25,i:"1522335789203-aabd1fc54bc9"},
+ {t:"Wedding Highlight",c:C,v:1,d:52,i:"1529634806980-85c3dd6d34ac"},
+ {t:"Sneaker Drop",c:B,i:"1542291026-7eec264c27ff"}
+];
+var BK={};
+BK[W]=["1541339907198-e08756dedf3f","1627556704302-624286467c65"];
+BK[C]=["1519741497674-611481863552","1511285560929-80b456fea0bc","1465495976277-4387d4b0b4c6"];
+BK[V]=["1492684223066-81342ee5ff30","1541339907198-e08756dedf3f"];
+BK[B]=["1523275335684-37898b6baf30","1505740420928-5e560c06d30e"];
+var PLANS={
+ photo:{n:"Photo Session",p:350000,ao:["reels","hour","exp"]},
+ combo:{n:"Photo + Video Reels",p:950000,ao:["hour","exp","print"]},
+ event:{n:"Full Cinematic Event",p:2200000,ao:["hour","exp","print"]}
+};
+var AO={
+ reels:{n:"Tambah Video Reels 30 Detik",p:250000},
+ hour:{n:"Extra Jam",p:150000},
+ exp:{n:"Express Edit 24 Jam",p:100000},
+ print:{n:"Cetak 10 Foto 4R",p:85000}
+};
+function rp(n){return "Rp "+Math.round(n).toLocaleString("id-ID")}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function mmss(s){s=Math.floor(s);return Math.floor(s/60)+":"+String(s%60).padStart(2,"0")}
+var toastT;
+function toast(m){var t=$("#toast");t.textContent=m;t.classList.add("on");clearTimeout(toastT);toastT=setTimeout(function(){t.classList.remove("on")},1900)}
+window.fb=function(el){
+ if(el.dataset.f)return;
+ var tried=(el.dataset.t||"").split(","),pool=BK[el.dataset.c]||[];
+ for(var q=0;q<pool.length;q++){if(tried.indexOf(pool[q])<0&&el.src.indexOf(pool[q])<0){tried.push(pool[q]);el.dataset.t=tried.join(",");el.src=img(pool[q]);return}}
+ el.dataset.f=1;
+ el.src="data:image/svg+xml,"+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#EFF6FF"/><stop offset="1" stop-color="#93C5FD"/></linearGradient></defs><rect width="800" height="800" fill="url(#g)"/><circle cx="400" cy="360" r="70" fill="#fff" opacity=".7"/><text x="400" y="520" text-anchor="middle" font-family="serif" font-size="40" fill="#0F172A" opacity=".7">terekam.</text></svg>');
+};
+function mkImg(it,alt){var e=document.createElement("img");e.dataset.c=it.c;e.src=img(it.i);e.alt=alt;e.loading="lazy";e.onerror=function(){fb(e)};return e}
+
+/* ---------- Sinkron data dari dashboard admin ---------- */
+(function(){
+ var d=dbRead();
+ if(d.portfolio&&d.portfolio.length)ITEMS=d.portfolio.map(function(x){return {t:x.t,c:x.c,v:x.v?1:0,d:x.d||0,i:x.i}});
+ if(d.packages)d.packages.forEach(function(p){
+  if(PLANS[p.id]){PLANS[p.id].n=p.name;PLANS[p.id].p=+p.price}
+  var b=document.querySelector('[data-plan="'+p.id+'"]');if(!b)return;
+  var a=b.closest(".plan");
+  a.querySelector("h3").textContent=p.name;
+  var ds=a.querySelector(".d");if(ds)ds.textContent=p.desc||"";
+  a.querySelector(".pr").innerHTML=rp(p.price)+(p.id==="photo"?"<small> mulai dari</small>":"");
+  a.querySelector("ul").innerHTML=p.features.map(function(f){return "<li>"+esc(f)+"</li>"}).join("");
+ });
+})();
+
+/* ---------- Nav & scroll ---------- */
+var burger=$("#burger"),menu=$("#menu");
+function closeMenu(){menu.classList.remove("on");burger.setAttribute("aria-expanded","false")}
+burger.onclick=function(){var o=menu.classList.toggle("on");burger.setAttribute("aria-expanded",o)};
+function go(id){var t=document.getElementById(id);if(t){closeMenu();t.scrollIntoView({behavior:"smooth",block:"start"})}}
+$$('a[href^="#"]').forEach(function(a){a.addEventListener("click",function(e){e.preventDefault();go(a.getAttribute("href").slice(1))})});
+$$("[data-go]").forEach(function(b){b.onclick=function(){go(b.dataset.go)}});
+$$(".hdl").forEach(function(b){b.onclick=function(){toast(b.dataset.h+" adalah akun contoh untuk prototype")}});
+window.addEventListener("resize",function(){if(innerWidth>920)closeMenu()});
+
+/* ---------- Hero collage ---------- */
+var ph=[],vd=[];ITEMS.forEach(function(it,k){(it.v?vd:ph).push(k)});
+var pick=[["c1",ph[1]!=null?ph[1]:(ph[0]!=null?ph[0]:0)],["c2",ph[0]!=null?ph[0]:0],["c3",vd[0]!=null?vd[0]:0]];
+pick.forEach(function(x){
+ var b=$("."+x[0]),it=ITEMS[x[1]];b.dataset.open=x[1];b.setAttribute("aria-label",it.t);
+ b.insertBefore(mkImg(it,it.t),b.firstChild);
+ if(it.v){var p=document.createElement("span");p.className="pl";p.innerHTML="<i>▶</i>";b.appendChild(p);var r=document.createElement("span");r.className="rec";r.textContent="● Reels "+mmss(it.d);b.appendChild(r)}
+});
+$$(".col [data-open]").forEach(function(b){b.onclick=function(){var k=+b.dataset.open;openV(k,ITEMS[k].v?vids():all())}});
+$("#reel").onclick=function(){var v=vids();if(!v.length){toast("Belum ada video di portofolio");return}openV(v[0],v,true)};
+
+/* ---------- Gallery ---------- */
+var gal=$("#gal"),cur="all";
+function all(){return ITEMS.map(function(_,k){return k})}
+function vids(){return all().filter(function(k){return ITEMS[k].v})}
+function visible(){return all().filter(function(k){return cur==="all"||ITEMS[k].c===cur})}
+ITEMS.forEach(function(it,k){
+ var b=document.createElement("button");
+ b.className="it";b.dataset.c=it.c;
+ b.setAttribute("aria-label",(it.v?"Putar video ":"Buka foto ")+it.t);
+ b.appendChild(mkImg(it,it.t+", "+it.c));
+ var tp=document.createElement("span");tp.className="tp"+(it.v?" v":"");tp.textContent=it.v?"▶ Video "+mmss(it.d):"Photo";b.appendChild(tp);
+ if(it.v){var p=document.createElement("span");p.className="pl";p.innerHTML="<i>▶</i>";b.appendChild(p)}
+ var cp=document.createElement("span");cp.className="cap";cp.innerHTML=esc(it.t)+"<small>"+esc(it.c)+"</small>";b.appendChild(cp);
+ b.onclick=function(){openV(k,visible())};
+ gal.appendChild(b);
+});
+$("#tabs").onclick=function(e){
+ var b=e.target.closest(".tab");if(!b)return;
+ $$(".tab",this).forEach(function(x){x.classList.toggle("on",x===b)});
+ cur=b.dataset.f;
+ $$(".it",gal).forEach(function(it){
+  var show=cur==="all"||it.dataset.c===cur;
+  if(show){it.hidden=false;requestAnimationFrame(function(){requestAnimationFrame(function(){it.classList.remove("out")})})}
+  else{it.classList.add("out");setTimeout(function(){if(it.classList.contains("out"))it.hidden=true},280)}
+ });
+};
+
+/* ---------- Viewer (foto + simulasi video) ---------- */
+var vw=$("#vw"),stage=$("#stage"),vlist=[],vpos=0,playing=false,el=0,dur=0,last=0,tid=null,muted=false;
+function paint(){
+ var r=dur?el/dur:0;$("#pb").style.width=(r*100)+"%";$("#tm").textContent=mmss(el)+" / "+mmss(dur);
+}
+function pause(){clearInterval(tid);playing=false;stage.classList.remove("playing");$("#pp").textContent=(dur&&el>=dur)?"↺":"▶"}
+function play(){
+ if(!dur)return;if(el>=dur)el=0;
+ playing=true;last=Date.now();stage.classList.add("playing");$("#pp").textContent="❚❚";
+ clearInterval(tid);
+ tid=setInterval(function(){var n=Date.now();el+=(n-last)/1000;last=n;if(el>=dur){el=dur;pause()}paint()},100);
+}
+function showV(){
+ pause();
+ var it=ITEMS[vlist[vpos]];dur=it.v?it.d:0;el=0;
+ var im=$("#vi");im.dataset.f="";im.dataset.t="";im.dataset.c=it.c;im.onerror=function(){fb(im)};im.src=img(it.i,1400);im.alt=it.t;
+ stage.classList.toggle("isv",!!it.v);$("#ctl").classList.toggle("on",!!it.v);
+ $("#vt").textContent=it.t;
+ $("#vc").textContent=it.c+" · "+(it.v?"Video (simulasi)":"Foto")+" · "+(vpos+1)+" dari "+vlist.length;
+ paint();
+}
+function openV(k,list,autoplay){
+ vlist=list;vpos=Math.max(0,list.indexOf(k));showV();
+ vw.classList.add("on");document.body.style.overflow="hidden";$("#vx").focus();
+ if(autoplay&&dur)play();
+}
+function closeV(){pause();vw.classList.remove("on");if(!$("#modal").classList.contains("on"))document.body.style.overflow=""}
+function stepV(d){vpos=(vpos+d+vlist.length)%vlist.length;showV()}
+$("#vx").onclick=closeV;
+$("#vp").onclick=function(){stepV(-1)};
+$("#vn").onclick=function(){stepV(1)};
+$("#bigp").onclick=play;
+$("#pp").onclick=function(){playing?pause():play()};
+$("#mu").onclick=function(){muted=!muted;this.textContent=muted?"🔇":"🔊";toast(muted?"Suara dimatikan":"Suara dinyalakan")};
+$("#prog").onclick=function(e){var r=this.getBoundingClientRect();el=Math.max(0,Math.min(1,(e.clientX-r.left)/r.width))*dur;paint()};
+vw.addEventListener("click",function(e){if(e.target===vw)closeV()});
+
+/* ---------- Booking ---------- */
+var modal=$("#modal"),plan=null,planKey="",data={},timerId=null,endAt=0,expired=false,proof=false,proofName="";
+function setStep(n){
+ $$(".st").forEach(function(s,i){s.classList.toggle("on",i===n-1)});
+ $$("#pg li").forEach(function(li,i){li.className=i+1<n?"done":(i+1===n?"on":"")});
+ modal.scrollTop=0;
+}
+function chosen(){return $$("#aos input:checked").map(function(c){return AO[c.value]})}
+function total(){return chosen().reduce(function(s,a){return s+a.p},plan.p)}
+function calc(){var t=total();$("#tot").textContent=rp(t);$("#dpv").textContent=rp(t*.5);$("#fv").textContent=rp(t)}
+function openBooking(key){
+ planKey=key;plan=PLANS[key];
+ $("#pn").textContent=plan.n;$("#pb2").textContent=rp(plan.p);
+ $("#aos").innerHTML=plan.ao.map(function(k){return '<label class="ao"><input type="checkbox" value="'+k+'"><span>+ '+AO[k].n+'</span><b>+'+rp(AO[k].p)+'</b></label>'}).join("");
+ $$("#aos input").forEach(function(c){c.onchange=calc});
+ $("#form").reset();$$(".f").forEach(function(f){f.classList.remove("bad")});
+ var d=new Date(),m=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+ $("#dt").min=m;calc();resetPay();setStep(1);
+ modal.classList.add("on");modal.setAttribute("aria-hidden","false");document.body.style.overflow="hidden";
+ setTimeout(function(){$("#nm").focus()},60);
+}
+function closeBooking(){modal.classList.remove("on");modal.setAttribute("aria-hidden","true");clearInterval(timerId);document.body.style.overflow=""}
+function resetPay(){
+ proof=false;expired=false;
+ $("#up").classList.remove("ok");$("#upt").textContent="Klik untuk upload bukti bayar";$("#file").value="";$("#upe").style.display="none";
+ $("#tmr").classList.remove("exp");$("#done").disabled=false;selectMethod("qris");
+}
+$$("[data-plan]").forEach(function(b){b.onclick=function(){openBooking(b.dataset.plan)}});
+$("#mx").onclick=closeBooking;
+modal.addEventListener("mousedown",function(e){if(e.target===modal)closeBooking()});
+function bad(id,c){$("#"+id).closest(".f").classList.toggle("bad",c);return c}
+$("#form").addEventListener("submit",function(e){
+ e.preventDefault();
+ var nm=$("#nm").value.trim(),wa=$("#wa").value.replace(/[\s\-().]/g,""),ig=$("#ig").value.trim(),dt=$("#dt").value,tm=$("#tm2").value,lc=$("#lc").value.trim();
+ var today=new Date();today.setHours(0,0,0,0);
+ var errs=[bad("nm",nm.length<3),bad("wa",!/^(\+62|62|0)8\d{7,11}$/.test(wa)),bad("ig",ig!==""&&!/^@?[A-Za-z0-9._]{1,30}$/.test(ig)),bad("dt",!dt||new Date(dt+"T00:00:00")<today),bad("tm2",!tm),bad("lc",lc.length<3)];
+ if(errs.indexOf(true)>-1){$$(".f.bad input,.f.bad select")[0].focus();return}
+ var py=$('input[name="py"]:checked').value,t=total(),pay=py==="dp"?t*.5:t;
+ data={nm:nm,wa:wa.replace(/^\+/,"").replace(/^0/,"62"),ig:ig?"@"+ig.replace(/^@/,""):"",dt:dt,tm:tm,lc:lc,py:py,t:t,pay:pay,aos:chosen()};
+ var rows=[["Paket "+plan.n,rp(plan.p)]];
+ data.aos.forEach(function(a){rows.push([a.n,rp(a.p)])});
+ rows.push(["Total biaya",rp(t)]);
+ if(py==="dp")rows.push(["Sisa dibayar saat hari H",rp(t-pay)]);
+ $("#bk").innerHTML=rows.map(function(r){return "<div><span>"+esc(r[0])+"</span><b>"+r[1]+"</b></div>"}).join("")+'<div><span>Transfer sekarang ('+(py==="dp"?"DP 50%":"Lunas")+')</span><b class="big">'+rp(pay)+"</b></div>";
+ startTimer();setStep(2);
+});
+$("#b1").onclick=function(){clearInterval(timerId);setStep(1)};
+function pad(n){return String(n).padStart(2,"0")}
+function startTimer(){
+ clearInterval(timerId);expired=false;$("#tmr").classList.remove("exp");$("#done").disabled=false;
+ endAt=Date.now()+2*3600*1000;
+ function tick(){
+  var s=Math.max(0,Math.round((endAt-Date.now())/1000));
+  $("#cd").textContent=pad(Math.floor(s/3600))+":"+pad(Math.floor(s%3600/60))+":"+pad(s%60);
+  if(s===0){clearInterval(timerId);expired=true;$("#tmr").classList.add("exp");$("#done").disabled=true;toast("Waktu habis, silakan booking ulang")}
+ }
+ tick();timerId=setInterval(tick,1000);
+}
+function selectMethod(m){
+ $$("#mt .tab").forEach(function(t){t.classList.toggle("on",t.dataset.m===m)});
+ ["qris","bca","mandiri"].forEach(function(k){$("#m-"+k).classList.toggle("on",k===m)});
+}
+$$("#mt .tab").forEach(function(t){t.onclick=function(){selectMethod(t.dataset.m)}});
+$$("[data-copy]").forEach(function(b){b.onclick=function(){
+ var txt=b.dataset.copy;
+ function ok(){toast("Tersalin!")}
+ function fallback(){var ta=document.createElement("textarea");ta.value=txt;ta.style.position="fixed";ta.style.opacity="0";document.body.appendChild(ta);ta.select();try{document.execCommand("copy")}catch(e){}ta.remove();ok()}
+ if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(txt).then(ok,fallback)}else fallback();
+}});
+$("#file").onchange=function(){var f=this.files[0];if(!f)return;proof=true;proofName=f.name;$("#up").classList.add("ok");$("#upt").textContent="✓ "+f.name;$("#upe").style.display="none"};
+(function(){
+ var n=25,svg='<svg viewBox="0 0 '+n+' '+n+'" width="100%" height="100%" shape-rendering="crispEdges" aria-label="QRIS contoh"><rect width="'+n+'" height="'+n+'" fill="#fff"/>';
+ function fp(x,y){return '<rect x="'+x+'" y="'+y+'" width="7" height="7" fill="#0F172A"/><rect x="'+(x+1)+'" y="'+(y+1)+'" width="5" height="5" fill="#fff"/><rect x="'+(x+2)+'" y="'+(y+2)+'" width="3" height="3" fill="#0F172A"/>'}
+ var s=11;function r(){s=(s*9301+49297)%233280;return s/233280}
+ for(var i=0;i<n;i++)for(var j=0;j<n;j++){var f=(i<8&&j<8)||(i<8&&j>n-9)||(i>n-9&&j<8);if(!f&&r()>.52)svg+='<rect x="'+j+'" y="'+i+'" width="1" height="1" fill="#0F172A"/>'}
+ $("#qr").innerHTML=svg+fp(0,0)+fp(n-7,0)+fp(0,n-7)+"</svg>";
+})();
+$("#done").onclick=function(){
+ if(expired)return;
+ if(!proof){$("#upe").style.display="block";$("#up").scrollIntoView({behavior:"smooth",block:"center"});return}
+ clearInterval(timerId);
+ var db=dbRead();db.bookings=db.bookings||[];
+ var code,tries=0;do{code="TRK-2026-"+(tries<60?10+Math.floor(Math.random()*90):100+Math.floor(Math.random()*900));tries++}while(db.bookings.some(function(b){return b.code===code}));
+ var tgl=new Date(data.dt+"T00:00:00").toLocaleDateString("id-ID",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
+ var status=data.py==="dp"?"DP 50% Terbayar":"Lunas";
+ var aos=data.aos.length?data.aos.map(function(a){return a.n}).join(", "):"-";
+ var sisa=data.py==="dp"?rp(data.t-data.pay):"Rp 0";
+ $("#code").textContent="#"+code;$("#tst").textContent="Menunggu verifikasi";
+ var rows=[["Paket",plan.n],["Add-on",aos],["Nama",data.nm],["WhatsApp","+"+data.wa]];
+ if(data.ig)rows.push(["Instagram",data.ig]);
+ rows=rows.concat([["Tanggal",tgl],["Sesi",data.tm],["Lokasi",data.lc],["Total biaya",rp(data.t)],["Sudah dibayar",rp(data.pay)],["Sisa",sisa]]);
+ $("#sum").innerHTML=rows.map(function(r){return '<div class="dr"><dt>'+r[0]+"</dt><dd>"+esc(r[1])+"</dd></div>"}).join("");
+ var msg="Halo Terekam Studio, saya mau konfirmasi booking.\n\nKode: #"+code+"\nPaket: "+plan.n+"\nAdd-on: "+aos+"\nNama: "+data.nm+"\nWhatsApp: +"+data.wa+(data.ig?"\nInstagram: "+data.ig:"")+"\nTanggal: "+tgl+"\nSesi: "+data.tm+"\nLokasi: "+data.lc+"\nTotal: "+rp(data.t)+"\nStatus: "+status+" ("+rp(data.pay)+")\nSisa: "+sisa+"\n\nBukti bayar saya kirim di chat ini. Terima kasih!";
+ $("#wal").href="https://wa.me/"+WA+"?text="+encodeURIComponent(msg);
+ db.bookings.unshift({code:code,nm:data.nm,wa:data.wa,ig:data.ig,pkgKey:planKey,pkg:plan.n,aos:data.aos.map(function(a){return a.n}),total:data.t,paid:data.pay,py:data.py,dt:data.dt,tm:data.tm,lc:data.lc,status:"menunggu",proof:proofName,created:new Date().toISOString(),src:"web"});
+ dbWrite(db);
+ try{if(window.opener&&!window.opener.closed)window.opener.postMessage({terekam:"booking",b:db.bookings[0]},"*")}catch(e){}
+ setStep(3);
+ var ck=$(".ck");ck.parentNode.replaceChild(ck.cloneNode(true),ck);
+};
+$("#prt").onclick=function(){window.print()};
+$("#fin").onclick=closeBooking;
+
+/* ---------- Keyboard ---------- */
+document.addEventListener("keydown",function(e){
+ if(vw.classList.contains("on")){
+  if(e.key==="Escape")closeV();
+  else if(e.key==="ArrowLeft")stepV(-1);
+  else if(e.key==="ArrowRight")stepV(1);
+  else if(e.key===" "&&dur&&document.activeElement.tagName!=="BUTTON"){e.preventDefault();playing?pause():play()}
+ }else if(modal.classList.contains("on")&&e.key==="Escape")closeBooking();
+});
+})();
+</script>
+</body>
+</html>

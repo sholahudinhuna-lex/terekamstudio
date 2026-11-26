@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>terekam. admin — Dashboard Terekam Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F8FAFC;--sky:#E0F2FE;--blue:#3B82F6;--blueh:#2563EB;--ink:#1E293B;--mute:#64748B;--line:#DBEAFE;--r:12px}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;font-family:"Plus Jakarta Sans",system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:14.5px;line-height:1.55}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+a{color:inherit;text-decoration:none}
+small{color:var(--mute);display:block;font-size:12.5px}
+:focus-visible{outline:3px solid var(--blueh);outline-offset:2px}
+.ic{width:18px;height:18px;flex:none}
+.logo{font-family:"Playfair Display",serif;font-weight:700;font-size:24px}
+.logo span{color:var(--blue)}
+.logo em{font-family:"Plus Jakarta Sans",sans-serif;font-style:normal;font-size:12px;font-weight:700;background:#fff;color:var(--blueh);border-radius:99px;padding:2px 9px;margin-left:6px;vertical-align:middle}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:1px solid var(--blue);background:var(--blue);color:#fff;border-radius:var(--r);padding:10px 18px;font-weight:600;transition:background .2s,transform .15s}
+.btn:hover{background:var(--blueh);border-color:var(--blueh)}
+.btn:active{transform:scale(.97)}
+.btn.o{background:#fff;color:var(--blueh);border-color:#BFDBFE}
+.btn.o:hover{background:var(--sky)}
+.btn.sm{padding:6px 12px;font-size:13px}
+.btn.red{background:#fff;color:#B91C1C;border-color:#FECACA}
+.btn.red:hover{background:#FEE2E2}
+.btn.g{background:#16A34A;border-color:#16A34A}
+.btn.g:hover{background:#15803D}
+.btn.full{width:100%}
+.lk{color:var(--blueh);font-weight:600;font-size:14px}
+.lk:hover{text-decoration:underline}
+/* login */
+.login{position:fixed;inset:0;z-index:300;background:linear-gradient(160deg,var(--sky),var(--bg));display:none;align-items:center;justify-content:center;padding:20px}
+.login.on{display:flex}
+.lcard{background:#fff;border:1px solid var(--line);border-radius:22px;padding:34px 30px;width:100%;max-width:400px;display:grid;gap:14px;box-shadow:0 30px 60px -36px rgba(37,99,235,.5);text-align:center}
+.lcard p{margin:0;color:var(--mute)}
+.lcard form{display:grid;gap:12px;text-align:left}
+.lcard label{font-weight:600;font-size:13.5px;display:grid;gap:5px}
+input[type=text],input[type=email],input[type=password],input[type=tel],input[type=date],input[type=number],input[type=url],select,textarea{width:100%;padding:10px 13px;border:1px solid #BFDBFE;border-radius:var(--r);background:#fff;transition:border .2s,box-shadow .2s}
+input:focus,select:focus,textarea:focus{outline:0;border-color:var(--blue);box-shadow:0 0 0 4px rgba(59,130,246,.15)}
+.err{color:#B91C1C;font-size:13px;min-height:18px}
+.hint{font-size:12.5px;color:var(--mute)}
+/* layout */
+.app{display:none}
+.app.on{display:block}
+.sb{position:fixed;inset:0 auto 0 0;width:250px;background:var(--sky);padding:22px 14px;display:flex;flex-direction:column;gap:6px;z-index:60;transition:transform .25s}
+.sb .logo{padding:0 10px 18px}
+.nv{display:flex;align-items:center;gap:11px;width:100%;border:0;background:none;border-radius:var(--r);padding:11px 12px;font-weight:600;color:#334155;text-align:left;transition:.2s}
+.nv:hover{background:rgba(255,255,255,.7)}
+.nv.on{background:var(--blue);color:#fff}
+.nv .cnt{margin-left:auto;background:#FACC15;color:#713F12;border-radius:99px;font-size:12px;padding:0 8px;min-width:22px;text-align:center}
+.nv.on .cnt{background:#fff;color:var(--blueh)}
+.sb .sp{flex:1}
+.main{margin-left:250px;min-width:0}
+.top{position:sticky;top:0;z-index:40;background:rgba(248,250,252,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:14px;padding:12px 28px}
+.top h1{font-family:"Playfair Display",serif;font-size:22px;margin:0;font-weight:700;white-space:nowrap}
+.burger{display:none;border:1px solid var(--line);background:#fff;border-radius:var(--r);width:40px;height:40px;place-items:center}
+.sbox{margin-left:auto;display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);border-radius:99px;padding:0 14px;width:min(340px,100%);color:var(--mute)}
+.sbox input{border:0;padding:9px 0;box-shadow:none!important;background:none;min-width:0}
+.sbox input:focus{border:0}
+.prof{position:relative}
+.av{display:flex;align-items:center;gap:9px;border:1px solid var(--line);background:#fff;border-radius:99px;padding:4px 12px 4px 4px;font-weight:600}
+.av i{width:32px;height:32px;border-radius:50%;background:var(--blue);color:#fff;display:grid;place-items:center;font-style:normal}
+.dd{position:absolute;right:0;top:48px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:6px;min-width:210px;display:none;box-shadow:0 20px 40px -20px rgba(15,23,42,.3)}
+.dd.on{display:block}
+.dd button,.dd a{display:flex;gap:9px;align-items:center;width:100%;border:0;background:none;padding:9px 11px;border-radius:9px;text-align:left}
+.dd button:hover,.dd a:hover{background:var(--sky)}
+.cont{padding:28px}
+.scrim{position:fixed;inset:0;background:rgba(15,23,42,.4);z-index:55;display:none}
+.ph{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap;margin-bottom:22px}
+.ph h2{font-family:"Playfair Display",serif;font-size:30px;margin:0;line-height:1.15}
+.ph p{margin:4px 0 0;color:var(--mute)}
+.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px}
+.card h3{margin:0 0 14px;font-size:17px}
+.kg{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px}
+.kpi{text-align:left;display:grid;gap:2px;transition:transform .2s,box-shadow .2s}
+.kpi:hover{transform:translateY(-3px);box-shadow:0 18px 30px -22px rgba(37,99,235,.6)}
+.kpi .ki{width:38px;height:38px;border-radius:11px;background:var(--sky);color:var(--blueh);display:grid;place-items:center;margin-bottom:8px}
+.kpi small{font-size:13px}
+.kpi b{font-family:"Playfair Display",serif;font-size:28px;line-height:1.2}
+.kpi em{font-style:normal;font-size:12.5px;color:var(--mute)}
+.two{display:grid;grid-template-columns:1.7fr 1fr;gap:20px;align-items:start}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:640px}
+th{text-align:left;font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--mute);padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:12px 10px;border-bottom:1px solid #EEF4FB;vertical-align:middle}
+tr:last-child td{border:0}
+tbody tr:hover{background:#F4F9FF}
+.acts{display:flex;gap:6px;flex-wrap:wrap}
+.bd{display:inline-block;padding:3px 11px;border-radius:99px;font-size:12px;font-weight:700;white-space:nowrap}
+.bd.y{background:#FEF9C3;color:#A16207}.bd.g{background:#DCFCE7;color:#15803D}.bd.b{background:#DBEAFE;color:#1D4ED8}.bd.r{background:#FEE2E2;color:#B91C1C}
+.empty{text-align:center;color:var(--mute);padding:34px 10px}
+.bar{display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:14px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap}
+.tab{border:1px solid var(--line);background:#fff;border-radius:99px;padding:7px 14px;font-weight:600;font-size:13px;transition:.2s}
+.tab:hover{border-color:var(--blue)}
+.tab.on{background:var(--blue);border-color:var(--blue);color:#fff}
+.tab em{font-style:normal;opacity:.7;margin-left:4px}
+.soon{display:grid;gap:10px}
+.sn{display:flex;gap:12px;align-items:center;width:100%;border:1px solid var(--line);background:#fff;border-radius:14px;padding:10px 12px;text-align:left;transition:.2s}
+.sn:hover{border-color:var(--blue);background:#F4F9FF}
+.sn .d{width:48px;height:52px;border-radius:12px;background:var(--sky);color:var(--blueh);display:grid;place-items:center;text-align:center;line-height:1.1;font-weight:700;flex:none}
+.sn .d small{color:var(--blueh);font-size:11px;text-transform:uppercase}
+.sn .d b{font-size:19px}
+/* calendar */
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.cal .h{text-align:center;font-size:12px;font-weight:700;color:var(--mute);padding:4px 0}
+.cd{min-height:62px;border:1px solid var(--line);background:#fff;border-radius:11px;padding:6px;text-align:left;transition:.2s;display:flex;flex-direction:column;justify-content:space-between}
+.cd:hover{border-color:var(--blue)}
+.cd.td{background:var(--sky)}
+.cd.sel{border-color:var(--blueh);box-shadow:0 0 0 2px var(--blue) inset}
+.cd.o{visibility:hidden;pointer-events:none}
+.dots{display:flex;gap:3px}
+.dt{width:8px;height:8px;border-radius:50%;display:block}
+.dt.menunggu{background:#FACC15}.dt.terjadwal{background:#22C55E}.dt.selesai{background:#3B82F6}
+.leg{display:flex;gap:16px;flex-wrap:wrap;margin-top:14px;font-size:12.5px;color:var(--mute)}
+.leg span{display:flex;gap:6px;align-items:center}
+/* portfolio & packages */
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+.pc{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.pi{position:relative;aspect-ratio:4/3;background:var(--sky)}
+.pi img{width:100%;height:100%;object-fit:cover;display:block}
+.tp{position:absolute;left:10px;top:10px;background:rgba(255,255,255,.92);font-size:11.5px;font-weight:700;padding:3px 10px;border-radius:99px}
+.tp.v{background:var(--blue);color:#fff}
+.pb{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:12px}
+.pb b{display:block;font-size:14px;line-height:1.3}
+.pks{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.pk{display:flex;flex-direction:column}
+.pk.pop{border:2px solid var(--blue)}
+.pk h3{font-family:"Playfair Display",serif;font-size:22px;margin:0}
+.pk p{margin:4px 0 0;color:var(--mute)}
+.pk .pr{font-family:"Playfair Display",serif;font-size:28px;font-weight:700;margin:12px 0}
+.pk ul{list-style:none;margin:0 0 16px;padding:0;flex:1}
+.pk li{padding:5px 0 5px 24px;position:relative;color:#334155}
+.pk li::before{content:"✓";position:absolute;left:0;color:var(--blueh);font-weight:700}
+.pk .mt{color:var(--mute);font-size:13px;margin-bottom:12px}
+/* modal */
+.modal{position:fixed;inset:0;z-index:200;background:rgba(15,23,42,.5);display:none;align-items:flex-start;justify-content:center;padding:24px 14px;overflow-y:auto}
+.modal.on{display:flex}
+.mbox{background:#fff;border-radius:22px;width:100%;max-width:620px;padding:28px;margin:auto;position:relative;animation:pop .25s ease}
+@keyframes pop{from{opacity:0;transform:translateY(12px) scale(.98)}}
+.mx{position:absolute;right:14px;top:14px;width:36px;height:36px;border-radius:50%;border:0;background:var(--sky);font-size:20px;line-height:1}
+.mbox h3{font-family:"Playfair Display",serif;font-size:24px;margin:0 0 6px}
+.mh{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-right:42px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px 18px;margin:16px 0}
+.g2 b{display:block;overflow-wrap:anywhere}
+.sum{background:var(--sky);border-radius:14px;padding:6px 16px;margin-bottom:14px}
+.sum div{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px dashed #BFDBFE}
+.sum div:last-child{border:0}
+.slip{border:1px dashed #93C5FD;border-radius:14px;padding:14px 16px;background:#F8FBFF;margin-bottom:6px}
+.slip .t{color:#15803D;font-weight:700}
+.slip b.n{font-family:"Playfair Display",serif;font-size:26px;display:block}
+.slip dl{margin:8px 0 0;font-size:13px}
+.slip dl div{display:flex;justify-content:space-between;padding:2px 0}
+.slip dt{color:var(--mute)}.slip dd{margin:0;font-weight:600}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.fr{display:grid;gap:5px;margin-top:12px;font-weight:600;font-size:13.5px}
+.fr .em{display:none;color:#B91C1C;font-weight:500;font-size:12.5px}
+.fr.bad .em{display:block}
+.fr.bad input,.fr.bad select,.fr.bad textarea{border-color:#DC2626}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.toasts{position:fixed;right:20px;bottom:20px;z-index:400;display:grid;gap:8px;max-width:min(380px,92vw)}
+.ts{background:var(--ink);color:#fff;border-radius:14px;padding:12px 16px;font-weight:600;font-size:14px;display:flex;gap:10px;align-items:flex-start;animation:pop .25s ease;box-shadow:0 14px 30px -14px rgba(15,23,42,.5)}
+.ts::before{content:"✓";background:#22C55E;border-radius:50%;width:20px;height:20px;display:grid;place-items:center;font-size:12px;flex:none}
+.ts.e::before{content:"!";background:#EF4444}
+@media(max-width:1100px){.kg{grid-template-columns:repeat(2,1fr)}.two{grid-template-columns:1fr}.pks{grid-template-columns:1fr}}
+@media(max-width:900px){
+ .sb{transform:translateX(-100%)}
+ .sb.on{transform:none}
+ .scrim.on{display:block}
+ .main{margin-left:0}
+ .burger{display:grid}
+ .top{padding:10px 16px}.cont{padding:18px 16px}
+ .top h1{font-size:18px}
+ .av span{display:none}.av{padding:4px}
+}
+@media(max-width:560px){.kg{grid-template-columns:1fr}.g2,.f2{grid-template-columns:1fr}.top h1{display:none}.sbox{margin-left:0}.cd{min-height:50px;padding:4px}.mbox{padding:22px 18px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="login on" id="login">
+  <div class="lcard">
+    <div class="logo">terekam<span>.</span><em>admin</em></div>
+    <p>Masuk untuk mengelola booking, jadwal, portofolio, dan paket harga.</p>
+    <form data-form="login" novalidate>
+      <label>Email<input id="le" type="email" value="admin@terekam.web.id" autocomplete="username"></label>
+      <label>Password<input id="lp" type="password" value="admin123" autocomplete="current-password"></label>
+      <div class="err" id="lerr" role="alert"></div>
+      <button class="btn full" type="submit">Masuk</button>
+    </form>
+    <button class="btn o full" data-act="quick">Akses Cepat (Demo)</button>
+    <div class="hint">Demo: admin@terekam.web.id / admin123</div>
+    <a class="lk cl" href="index.html" target="_blank">Lihat Website Klien</a>
+  </div>
+</div>
+
+<div class="app" id="app">
+  <aside class="sb" id="sb" aria-label="Menu admin">
+    <div class="logo">terekam<span>.</span><em>admin</em></div>
+    <div id="nav"></div>
+    <div class="sp"></div>
+    <a class="nv cl" href="index.html" target="_blank" id="siteLink"></a>
+    <button class="nv" data-act="logout" id="outBtn"></button>
+  </aside>
+  <div class="scrim" id="scrim" data-act="menu"></div>
+  <div class="main">
+    <header class="top">
+      <button class="burger" data-act="menu" aria-label="Buka menu" id="burger"></button>
+      <h1 id="title">Ringkasan</h1>
+      <label class="sbox" id="sbox"><input id="gq" type="text" placeholder="Cari klien atau kode booking" aria-label="Pencarian cepat"></label>
+      <div class="prof">
+        <button class="av" data-act="profile" aria-label="Menu profil"><i>R</i><span>Admin Raka</span></button>
+        <div class="dd" id="dd">
+          <a class="cl" href="index.html" target="_blank" id="ddSite"></a>
+          <button data-act="reset" id="ddReset"></button>
+          <button data-act="logout" id="ddOut"></button>
+        </div>
+      </div>
+    </header>
+    <main class="cont" id="view"></main>
+  </div>
+</div>
+
+<div class="modal" id="modal" aria-hidden="true"><div class="mbox" role="dialog" aria-modal="true"><button class="mx" data-act="closem" aria-label="Tutup">×</button><div id="mbody"></div></div></div>
+<div class="toasts" id="toasts" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+"use strict";
+/* Jika website klien sudah online, ganti CLIENT jadi alamat lengkapnya, mis. "https://terekam.web.id/" */
+const KEY="terekam_db_v1",AUTH="terekam_admin",CLIENT="index.html";
+let bc=null;try{bc=new BroadcastChannel("terekam")}catch(e){}
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const rp=n=>"Rp "+Math.round(n||0).toLocaleString("id-ID");
+const pad=n=>String(n).padStart(2,"0");
+const iso=d=>d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());
+const addD=n=>{const d=new Date();d.setDate(d.getDate()+n);return iso(d)};
+const pD=s=>new Date(s+"T00:00:00");
+const fD=(s,o)=>pD(s).toLocaleDateString("id-ID",o||{weekday:"short",day:"numeric",month:"short",year:"numeric"});
+const mmss=s=>Math.floor(s/60)+":"+pad(Math.floor(s%60));
+const IC={
+ home:"M3 12l9-8 9 8M5 10v10h14V10",
+ book:"M6 3h12v18l-3-2-3 2-3-2-3 2z M9 8h6 M9 12h6",
+ cal:"M4 6h16v14H4z M4 10h16 M8 3v4 M16 3v4",
+ img:"M4 5h16v14H4z M4 17l5-5 4 4 3-3 4 4 M8.5 10a1.5 1.5 0 100-3 1.5 1.5 0 000 3",
+ tag:"M3 12V3h9l9 9-9 9z M7.5 7.5h.01",
+ out:"M9 4H4v16h5 M16 8l4 4-4 4 M20 12H9",
+ ext:"M14 4h6v6 M20 4L10 14 M18 14v6H4V6h6",
+ menu:"M4 6h16M4 12h16M4 18h16",
+ plus:"M12 5v14M5 12h14",
+ search:"M11 4a7 7 0 100 14 7 7 0 000-14 M21 21l-5-5",
+ trash:"M4 7h16 M9 7V4h6v3 M6 7l1 13h10l1-13",
+ cash:"M3 6h18v12H3z M12 15a3 3 0 100-6 3 3 0 000 6",
+ clock:"M12 4a8 8 0 100 16 8 8 0 000-16 M12 8v4l3 2",
+ check:"M5 12l5 5 9-10",
+ reset:"M4 4v6h6 M5 14a8 8 0 108-9 8 8 0 00-8 3",
+ edit:"M4 20h4L19 9l-4-4L4 16z"
+};
+const ic=n=>`<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="${IC[n]}"/></svg>`;
+const CATS=["Wisuda","Wedding & Couple","Video Reels / Cinematic","Brand & Produk"];
+const CATF=[["all","Semua"],["Wisuda","Wisuda"],["Wedding & Couple","Wedding"],["Video Reels / Cinematic","Video"],["Brand & Produk","Produk"]];
+const ST={menunggu:["Menunggu Verifikasi","y"],terjadwal:["Terjadwal","g"],selesai:["Selesai","b"],batal:["Dibatalkan","r"]};
+const SESI=["Golden Hour Pagi (06.00–09.00)","Siang (10.00–14.00)","Golden Hour Sore (15.30–18.00)"];
+const PH="data:image/svg+xml,"+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600"><rect width="800" height="600" fill="#E0F2FE"/><circle cx="400" cy="270" r="60" fill="#fff" opacity=".8"/><text x="400" y="400" text-anchor="middle" font-family="serif" font-size="38" fill="#1E293B" opacity=".6">terekam.</text></svg>');
+const src=id=>/^(https?:|data:)/.test(id)?id:id.indexOf("dl:")===0?"https://unsplash.com/photos/"+id.slice(3)+"/download?force=true&w=700":"https://images.unsplash.com/photo-"+id+"?auto=format&fit=crop&w=700&q=80";
+const badge=s=>`<span class="bd ${ST[s][1]}">${ST[s][0]}</span>`;
+
+/* ---------- Data ---------- */
+let DB={};
+const load=()=>{try{return JSON.parse(localStorage.getItem(KEY))||{}}catch(e){return {}}};
+function save(){
+ try{localStorage.setItem(KEY,JSON.stringify(DB))}catch(e){toast("Penyimpanan penuh. Hapus foto upload yang besar.","e");return false}
+ if(bc)try{bc.postMessage("db")}catch(e){}
+ return true;
+}
+const cr=k=>{const n=new Date();return new Date(n.getFullYear(),n.getMonth(),Math.max(1,n.getDate()-k),9,30).toISOString()};
+function seedBk(){return [
+ {code:"TRK-2026-21",nm:"Salsabila Nur Aini",wa:"6281234560021",ig:"@salsa.naini",pkgKey:"photo",pkg:"Photo Session",aos:[],total:350000,paid:175000,py:"dp",dt:addD(2),tm:SESI[0],lc:"Kampus UNDIP Tembalang, Semarang",status:"menunggu",proof:"bukti_dp_salsa.jpg",created:cr(0)},
+ {code:"TRK-2026-34",nm:"Rizky Pratama & Anindya",wa:"6281234560034",ig:"@rizky.anindya",pkgKey:"event",pkg:"Full Cinematic Event",aos:["Extra Jam"],total:2350000,paid:1175000,py:"dp",dt:addD(4),tm:SESI[1],lc:"Gedung Graha Bening, Pekalongan",status:"terjadwal",proof:"transfer_bca_rizky.png",created:cr(2)},
+ {code:"TRK-2026-47",nm:"Dewi Kartika Sari",wa:"6281234560047",ig:"@dewikartika",pkgKey:"combo",pkg:"Photo + Video Reels",aos:["Express Edit 24 Jam"],total:1050000,paid:1050000,py:"full",dt:addD(1),tm:SESI[2],lc:"Alun-alun Kota Batang",status:"terjadwal",proof:"qris_dewi.jpg",created:cr(1)},
+ {code:"TRK-2026-58",nm:"Dimas Saputra (Batik Lasem)",wa:"6281234560058",ig:"@batiklasem.id",pkgKey:"combo",pkg:"Photo + Video Reels",aos:[],total:950000,paid:475000,py:"dp",dt:addD(6),tm:SESI[1],lc:"Workshop Batik Lasem, Rembang",status:"menunggu",proof:"dp_dimas.jpg",created:cr(0)},
+ {code:"TRK-2026-63",nm:"Nadia Rahmawati",wa:"6281234560063",ig:"@nadiarahma",pkgKey:"photo",pkg:"Photo Session",aos:["Extra Jam"],total:500000,paid:500000,py:"full",dt:addD(-5),tm:SESI[0],lc:"Kampus UIN Gusdur, Pekalongan",status:"selesai",proof:"lunas_nadia.jpg",created:cr(3)},
+ {code:"TRK-2026-72",nm:"Fajar Nugroho",wa:"6281234560072",ig:"",pkgKey:"event",pkg:"Full Cinematic Event",aos:[],total:2200000,paid:1100000,py:"dp",dt:addD(9),tm:SESI[2],lc:"Pantai Pasir Kencana, Pekalongan",status:"batal",proof:"dp_fajar.jpg",created:cr(3)}
+]}
+const seedPf=()=>[
+ ["Showreel 2026","Video Reels / Cinematic",1,48,"1492684223066-81342ee5ff30"],
+ ["Toga & Golden Hour","Wisuda",0,0,"dl:QfrTfjHzQIU"],
+ ["Janji di Taman","Wedding & Couple",0,0,"1519741497674-611481863552"],
+ ["Graduation Day Reels","Video Reels / Cinematic",1,30,"1541339907198-e08756dedf3f"],
+ ["Watch Series","Brand & Produk",0,0,"1523275335684-37898b6baf30"],
+ ["Lempar Topi","Wisuda",0,0,"1627556704302-624286467c65"],
+ ["Couple Cinematic Teaser","Video Reels / Cinematic",1,45,"1511285560929-80b456fea0bc"],
+ ["Bridal Soft Light","Wedding & Couple",0,0,"1465495976277-4387d4b0b4c6"],
+ ["Skincare Flatlay","Brand & Produk",0,0,"1556228720-195a672e8a03"],
+ ["Brand Launch Reel","Video Reels / Cinematic",1,25,"1522335789203-aabd1fc54bc9"],
+ ["Wedding Highlight","Wedding & Couple",1,52,"1529634806980-85c3dd6d34ac"],
+ ["Sneaker Drop","Brand & Produk",0,0,"1542291026-7eec264c27ff"]
+].map((a,i)=>({id:"p"+(i+1),t:a[0],c:a[1],v:a[2],d:a[3],i:a[4]}));
+const seedPk=()=>[
+ {id:"photo",name:"Photo Session",price:350000,desc:"Wisuda, personal, atau couple.",features:["Durasi 1 jam, 1 fotografer","30 foto hasil edit","File via Google Drive","Konsultasi konsep & lokasi"]},
+ {id:"combo",name:"Photo + Video Reels",price:950000,desc:"Satu sesi, dua jenis konten.",features:["Durasi 2 jam","30 foto hasil edit","1 video cinematic vertikal 60 detik","Siap upload IG Reels / TikTok","Transisi & color grading estetik"]},
+ {id:"event",name:"Full Cinematic Event",price:2200000,desc:"Wedding, engagement, atau event.",features:["1 fotografer + 1 videografer","Video highlight 3–5 menit","Teaser 1 menit untuk sosmed","Foto hasil edit tanpa batas jumlah","Backup file di cloud 6 bulan"]}
+];
+function init(){
+ DB=load();let ch=false;
+ if(!DB.packages||!DB.packages.length){DB.packages=seedPk();ch=true}
+ if(!DB.portfolio||!DB.portfolio.length){DB.portfolio=seedPf();ch=true}
+ if(!DB.seeded){DB.bookings=(DB.bookings||[]).concat(seedBk());DB.seeded=1;ch=true}
+ if(!DB.bookings)DB.bookings=[];
+ if(ch)save();
+}
+const get=c=>DB.bookings.find(b=>b.code===c);
+const newCode=()=>{let c,t=0;do{c="TRK-2026-"+(t<60?10+Math.floor(Math.random()*90):100+Math.floor(Math.random()*900));t++}while(get(c));return c};
+
+/* ---------- State & UI helpers ---------- */
+const S={view:"overview",q:"",bf:"all",pf:"all",cal:{y:new Date().getFullYear(),m:new Date().getMonth(),sel:addD(0)}};
+const TITLES={overview:"Ringkasan",booking:"Kelola Booking",jadwal:"Jadwal Pemotretan",portfolio:"Kelola Portofolio",paket:"Kelola Paket Harga"};
+const NAV=[["overview","home","Ringkasan"],["booking","book","Kelola Booking"],["jadwal","cal","Jadwal Pemotretan"],["portfolio","img","Kelola Portofolio"],["paket","tag","Kelola Paket Harga"]];
+let confirmCb=null;
+function toast(m,t){const e=document.createElement("div");e.className="ts"+(t==="e"?" e":"");e.textContent=m;$("#toasts").appendChild(e);setTimeout(()=>e.remove(),3400)}
+function openM(h){$("#mbody").innerHTML=h;$("#modal").classList.add("on");$("#modal").setAttribute("aria-hidden","false");document.body.style.overflow="hidden";const f=$("#mbody input,#mbody select,#mbody textarea");if(f&&!f.type!=="hidden")setTimeout(()=>f.focus(),50)}
+function closeM(){$("#modal").classList.remove("on");$("#modal").setAttribute("aria-hidden","true");$("#mbody").innerHTML="";delete $("#mbody").dataset.c;document.body.style.overflow="";confirmCb=null}
+function ask(title,msg,ok,fn){confirmCb=fn;openM(`<h3>${title}</h3><p style="color:var(--mute)">${msg}</p><div class="row"><button class="btn o" data-act="closem">Batal</button><button class="btn red" data-act="confirmok">${ok}</button></div>`)}
+const pend=()=>DB.bookings.filter(b=>b.status==="menunggu").length;
+function drawNav(){
+ $("#nav").innerHTML=NAV.map(n=>`<button class="nv ${S.view===n[0]?"on":""}" data-act="nav" data-v="${n[0]}">${ic(n[1])}${n[2]}${n[0]==="booking"&&pend()?`<span class="cnt">${pend()}</span>`:""}</button>`).join("");
+}
+function go(v,f){
+ S.view=v;if(f)S.bf=f;
+ $("#sb").classList.remove("on");$("#scrim").classList.remove("on");
+ render();window.scrollTo({top:0});
+}
+function render(){
+ $("#title").textContent=TITLES[S.view];
+ drawNav();
+ $("#view").innerHTML=({overview:vOverview,booking:vBooking,jadwal:vJadwal,portfolio:vPortfolio,paket:vPaket})[S.view]();
+ if(S.view==="booking")fillBook();
+}
+
+/* ---------- Views ---------- */
+function vOverview(){
+ const B=DB.bookings,n=new Date(),ym=n.getFullYear()+"-"+pad(n.getMonth()+1);
+ const rev=B.filter(b=>(b.status==="terjadwal"||b.status==="selesai")&&(b.created||"").slice(0,7)===ym).reduce((s,b)=>s+b.paid,0);
+ const c=s=>B.filter(b=>b.status===s).length;
+ const need=B.filter(b=>b.status==="menunggu").sort((a,b)=>(b.created||"").localeCompare(a.created||"")).slice(0,6);
+ const td=addD(0),wk=addD(7);
+ const soon=B.filter(b=>b.status==="terjadwal"&&b.dt>=td&&b.dt<=wk).sort((a,b)=>a.dt.localeCompare(b.dt));
+ const kpi=(i,l,v,sub,f)=>`<button class="card kpi" data-act="goto" data-v="booking" data-f="${f}"><span class="ki">${ic(i)}</span><small>${l}</small><b>${v}</b><em>${sub}</em></button>`;
+ return `<div class="ph"><div><h2>Halo, Admin Raka</h2><p>${fD(td,{weekday:"long",day:"numeric",month:"long",year:"numeric"})}</p></div></div>
+ <div class="kg">
+  ${kpi("cash","Total Pendapatan Bulan Ini",rp(rev),"dari pembayaran terverifikasi","terjadwal")}
+  ${kpi("book","Booking Aktif",c("terjadwal"),"jadwal terkunci","terjadwal")}
+  ${kpi("clock","Menunggu Verifikasi DP",c("menunggu"),"butuh tindakanmu","menunggu")}
+  ${kpi("check","Sesi Selesai",c("selesai"),"siap dikirim file","selesai")}
+ </div>
+ <div class="two">
+  <div class="card"><h3>Pesanan Terbaru yang Butuh Tindakan</h3><div class="tw"><table><thead><tr><th>Kode</th><th>Klien</th><th>Paket</th><th>Dibayar</th><th>Aksi</th></tr></thead><tbody>
+  ${need.length?need.map(b=>`<tr><td><b>#${esc(b.code)}</b></td><td>${esc(b.nm)}<small>+${esc(b.wa)}</small></td><td>${esc(b.pkg)}<small>${fD(b.dt)}</small></td><td>${rp(b.paid)}<small>${b.py==="dp"?"DP 50%":"Lunas"}</small></td><td><div class="acts"><button class="btn sm" data-act="verify" data-c="${esc(b.code)}">Verifikasi Pembayaran</button><button class="btn sm o" data-act="detail" data-c="${esc(b.code)}">Detail</button></div></td></tr>`).join(""):`<tr><td colspan="5" class="empty">Semua pesanan sudah ditangani.</td></tr>`}
+  </tbody></table></div></div>
+  <div class="card"><h3>Jadwal Terdekat Minggu Ini</h3><div class="soon">
+  ${soon.length?soon.map(b=>`<button class="sn" data-act="detail" data-c="${esc(b.code)}"><span class="d"><small>${fD(b.dt,{month:"short"})}</small><b>${pD(b.dt).getDate()}</b></span><span><b>${esc(b.nm)}</b><small>${esc(b.pkg)} · ${esc(b.tm.split(" (")[0])}</small></span></button>`).join(""):`<div class="empty">Belum ada sesi terjadwal 7 hari ke depan.</div>`}
+  </div><div class="row"><button class="btn o full" data-act="nav" data-v="jadwal">Buka Jadwal Lengkap</button></div></div>
+ </div>`;
+}
+function vBooking(){
+ return `<div class="ph"><div><h2>Kelola Booking</h2><p>Verifikasi pembayaran dan atur status pesanan klien.</p></div><button class="btn" data-act="newbook">${ic("plus")} Booking Manual</button></div>
+ <div class="card"><div class="bar"><div class="tabs" id="btabs"></div><label class="sbox" style="margin:0">${ic("search")}<input id="bq" type="text" placeholder="Cari nama, kode, atau No. WA" value="${esc(S.q)}"></label></div><div class="tw" id="bwrap"></div></div>`;
+}
+function fillBook(){
+ const T=[["all","Semua"],["menunggu","Menunggu Verifikasi"],["terjadwal","Terjadwal"],["selesai","Selesai"],["batal","Dibatalkan"]];
+ $("#btabs").innerHTML=T.map(t=>`<button class="tab ${S.bf===t[0]?"on":""}" data-act="tab" data-f="${t[0]}">${t[1]}<em>${t[0]==="all"?DB.bookings.length:DB.bookings.filter(b=>b.status===t[0]).length}</em></button>`).join("");
+ const q=S.q.trim().toLowerCase().replace(/^#/,"");
+ const L=DB.bookings.filter(b=>(S.bf==="all"||b.status===S.bf)&&(!q||(b.nm+" "+b.code+" "+b.wa+" "+b.pkg).toLowerCase().includes(q))).sort((a,b)=>(b.created||"").localeCompare(a.created||""));
+ $("#bwrap").innerHTML=`<table><thead><tr><th>Kode</th><th>Klien</th><th>Paket</th><th>Tanggal &amp; Sesi</th><th>Pembayaran</th><th>Status</th><th>Aksi</th></tr></thead><tbody>${L.length?L.map(b=>`<tr><td><b>#${esc(b.code)}</b></td><td>${esc(b.nm)}<small>+${esc(b.wa)}</small></td><td>${esc(b.pkg)}${b.aos&&b.aos.length?`<small>+ ${esc(b.aos.join(", "))}</small>`:""}</td><td>${fD(b.dt)}<small>${esc(b.tm.split(" (")[0])}</small></td><td>${b.py==="dp"?"DP 50%":"Lunas"}<small>${rp(b.paid)} / ${rp(b.total)}</small></td><td>${badge(b.status)}</td><td><div class="acts"><button class="btn sm ${b.status==="menunggu"?"":"o"}" data-act="detail" data-c="${esc(b.code)}">${b.status==="menunggu"?"Detail / Verifikasi":"Detail"}</button><button class="btn sm red" data-act="askdel" data-c="${esc(b.code)}" aria-label="Hapus ${esc(b.code)}">${ic("trash")}</button></div></td></tr>`).join(""):`<tr><td colspan="7" class="empty">Tidak ada pesanan yang cocok.</td></tr>`}</tbody></table>`;
+}
+function dayList(d){
+ const L=DB.bookings.filter(b=>b.dt===d&&b.status!=="batal").sort((a,b)=>a.tm.localeCompare(b.tm));
+ return L.length?L.map(b=>`<button class="sn" data-act="detail" data-c="${esc(b.code)}"><span class="d"><small>${esc(b.tm.split(" ")[0]==="Golden"?b.tm.split(" ")[2]:"Siang")}</small><b>${ic("clock")}</b></span><span><b>${esc(b.nm)}</b><small>${esc(b.pkg)} · ${esc(b.lc)}</small>${badge(b.status)}</span></button>`).join(""):`<div class="empty">Tidak ada sesi pada tanggal ini.</div>`;
+}
+function vJadwal(){
+ const {y,m,sel}=S.cal,first=new Date(y,m,1),off=(first.getDay()+6)%7,days=new Date(y,m+1,0).getDate(),td=addD(0);
+ let cells=["Sen","Sel","Rab","Kam","Jum","Sab","Min"].map(d=>`<div class="h">${d}</div>`).join("")+Array(off).fill('<span class="cd o"></span>').join("");
+ for(let d=1;d<=days;d++){
+  const k=y+"-"+pad(m+1)+"-"+pad(d),bs=DB.bookings.filter(b=>b.dt===k&&b.status!=="batal");
+  cells+=`<button class="cd ${k===td?"td":""} ${k===sel?"sel":""}" data-act="calsel" data-d="${k}" aria-label="${d} ${first.toLocaleDateString("id-ID",{month:"long"})}, ${bs.length} sesi"><b>${d}</b><span class="dots">${bs.slice(0,4).map(b=>`<u class="dt ${b.status}"></u>`).join("")}</span></button>`;
+ }
+ return `<div class="ph"><div><h2>Jadwal Pemotretan</h2><p>Klik tanggal untuk melihat sesi pada hari itu.</p></div></div>
+ <div class="two" style="grid-template-columns:1.5fr 1fr">
+  <div class="card"><div class="bar"><h3 style="margin:0">${first.toLocaleDateString("id-ID",{month:"long",year:"numeric"})}</h3><div class="acts"><button class="btn sm o" data-act="calprev" aria-label="Bulan sebelumnya">‹</button><button class="btn sm o" data-act="caltoday">Hari ini</button><button class="btn sm o" data-act="calnext" aria-label="Bulan berikutnya">›</button></div></div><div class="cal">${cells}</div>
+  <div class="leg"><span><u class="dt menunggu"></u>Menunggu verifikasi</span><span><u class="dt terjadwal"></u>Terjadwal</span><span><u class="dt selesai"></u>Selesai</span></div></div>
+  <div class="card"><h3>${fD(sel,{weekday:"long",day:"numeric",month:"long",year:"numeric"})}</h3><div class="soon">${dayList(sel)}</div></div>
+ </div>`;
+}
+function vPortfolio(){
+ const P=DB.portfolio,L=P.filter(p=>S.pf==="all"||p.c===S.pf);
+ return `<div class="ph"><div><h2>Kelola Portofolio</h2><p>Foto dan video di sini tampil di galeri website klien.</p></div><button class="btn" data-act="padd">${ic("plus")} Tambah Foto Portofolio</button></div>
+ <div class="tabs" style="margin-bottom:18px">${CATF.map(f=>`<button class="tab ${S.pf===f[0]?"on":""}" data-act="pfilter" data-f="${f[0]}">${f[1]}<em>${f[0]==="all"?P.length:P.filter(p=>p.c===f[0]).length}</em></button>`).join("")}</div>
+ ${L.length?`<div class="pgrid">${L.map(p=>`<article class="pc"><div class="pi"><img src="${esc(src(p.i))}" alt="${esc(p.t)}" loading="lazy" data-fb><span class="tp ${p.v?"v":""}">${p.v?"▶ Video "+mmss(p.d):"Photo"}</span></div><div class="pb"><div><b>${esc(p.t)}</b><small>${esc(p.c)}</small></div><button class="btn sm red" data-act="pdel" data-id="${esc(p.id)}">${ic("trash")} Hapus</button></div></article>`).join("")}</div>`:`<div class="card empty">Belum ada item di kategori ini.</div>`}`;
+}
+function vPaket(){
+ return `<div class="ph"><div><h2>Kelola Paket Harga</h2><p>Perubahan langsung tampil di pricelist website klien.</p></div></div>
+ <div class="pks">${DB.packages.map(p=>{const n=DB.bookings.filter(b=>b.pkgKey===p.id&&b.status!=="batal").length;return `<article class="card pk ${p.id==="combo"?"pop":""}"><h3>${esc(p.name)}</h3><p>${esc(p.desc)}</p><div class="pr">${rp(p.price)}</div><ul>${p.features.map(f=>`<li>${esc(f)}</li>`).join("")}</ul><div class="mt">${n} booking aktif/selesai</div><button class="btn o" data-act="pkedit" data-id="${esc(p.id)}">${ic("edit")} Edit Paket</button></article>`}).join("")}</div>`;
+}
+
+/* ---------- Detail booking ---------- */
+function detail(c){
+ const b=get(c);if(!b)return;
+ const wa=`https://wa.me/${b.wa}?text=${encodeURIComponent(`Halo ${b.nm}, kami dari Terekam Studio. Terkait booking #${b.code} (${b.pkg}) pada ${fD(b.dt,{day:"numeric",month:"long",year:"numeric"})}, ${b.status==="menunggu"?"kami sedang memverifikasi pembayaranmu.":b.status==="terjadwal"?"jadwalmu sudah terkunci. Sampai jumpa di sesi foto!":b.status==="selesai"?"sesi sudah selesai. File akan segera kami kirim.":"booking ini sudah dibatalkan."}`)}`;
+ const proof=b.proof?`<div class="slip"><div class="t">✓ Transfer Berhasil (simulasi)</div><b class="n">${rp(b.paid)}</b><dl><div><dt>Dari</dt><dd>${esc(b.nm)}</dd></div><div><dt>Ke</dt><dd>Terekam Studio</dd></div><div><dt>No. Referensi</dt><dd>TRX${esc(b.code.replace(/\D/g,""))}</dd></div><div><dt>File</dt><dd>${esc(b.proof)}</dd></div></dl></div>`:`<div class="slip"><small>Belum ada bukti transfer (booking manual dari admin).</small></div>`;
+ openM(`<div class="mh"><div><small>Kode Booking</small><h3>#${esc(b.code)}</h3></div>${badge(b.status)}</div>
+ <div class="g2"><div><small>Klien</small><b>${esc(b.nm)}</b></div><div><small>WhatsApp</small><b>+${esc(b.wa)}</b></div><div><small>Instagram</small><b>${esc(b.ig||"-")}</b></div><div><small>Paket</small><b>${esc(b.pkg)}</b></div><div><small>Add-on</small><b>${esc(b.aos&&b.aos.length?b.aos.join(", "):"-")}</b></div><div><small>Tanggal</small><b>${fD(b.dt,{weekday:"long",day:"numeric",month:"long",year:"numeric"})}</b></div><div><small>Sesi</small><b>${esc(b.tm)}</b></div><div><small>Lokasi</small><b>${esc(b.lc)}</b></div></div>
+ <div class="sum"><div><span>Total biaya</span><b>${rp(b.total)}</b></div><div><span>Dibayar (${b.py==="dp"?"DP 50%":"Lunas"})</span><b>${rp(b.paid)}</b></div><div><span>Sisa pembayaran</span><b>${rp(b.total-b.paid)}</b></div></div>
+ <small style="margin-bottom:6px">Bukti transfer</small>${proof}
+ <div class="row">
+  ${b.status==="menunggu"?`<button class="btn" data-act="accept">Terima &amp; Kunci Jadwal</button>`:""}
+  ${b.py==="dp"&&b.status!=="batal"?`<button class="btn o" data-act="paid">Tandai Lunas</button>`:""}
+  ${b.status==="terjadwal"?`<button class="btn" data-act="done">Tandai Selesai</button>`:""}
+  ${b.status==="menunggu"||b.status==="terjadwal"?`<button class="btn red" data-act="cancel">Batalkan</button>`:""}
+  <a class="btn g" href="${wa}" target="_blank" rel="noopener">Hubungi Klien via WA</a>
+  <button class="btn red" data-act="askdel" data-c="${esc(b.code)}">${ic("trash")} Hapus</button>
+ </div>`);
+ $("#mbody").dataset.c=c;
+}
+function upd(c,fn,msg){
+ const b=get(c);if(!b)return;
+ const r=fn(b);if(r===false)return;
+ if(!save())return;
+ toast(msg);render();
+ if($("#modal").classList.contains("on")&&$("#mbody").dataset.c===c)detail(c);
+}
+function accept(c){
+ upd(c,b=>{
+  const cf=DB.bookings.find(x=>x.code!==c&&x.status==="terjadwal"&&x.dt===b.dt&&x.tm===b.tm);
+  if(cf){toast(`Jadwal bentrok dengan #${cf.code} (${cf.nm}) di sesi yang sama`,"e");return false}
+  b.status="terjadwal";
+ },`Pembayaran #${c} diverifikasi, jadwal dikunci`);
+}
+
+/* ---------- Forms ---------- */
+const fr=(id,label,inner,err)=>`<div class="fr" data-f="${id}"><label for="${id}">${label}</label>${inner}<span class="em">${err}</span></div>`;
+function bookForm(){
+ openM(`<h3>Booking Manual</h3><p style="color:var(--mute);margin:0">Untuk klien yang memesan lewat WhatsApp atau datang langsung.</p>
+ <form data-form="book" novalidate>
+ ${fr("fn","Nama Klien",'<input id="fn" type="text" placeholder="Nama lengkap">',"Nama minimal 3 huruf.")}
+ <div class="f2">${fr("fw","No. WhatsApp",'<input id="fw" type="tel" placeholder="081234567890">',"Nomor tidak valid.")}${fr("fp","Paket",`<select id="fp">${DB.packages.map(p=>`<option value="${esc(p.id)}">${esc(p.name)} — ${rp(p.price)}</option>`).join("")}</select>`,"")}</div>
+ <div class="f2">${fr("fd","Tanggal",`<input id="fd" type="date" min="${addD(0)}">`,"Pilih tanggal mulai hari ini.")}${fr("ft","Sesi",`<select id="ft">${SESI.map(s=>`<option>${s}</option>`).join("")}</select>`,"")}</div>
+ ${fr("fl","Lokasi",'<input id="fl" type="text" placeholder="Lokasi pemotretan">',"Lokasi wajib diisi.")}
+ <div class="f2">${fr("fy","Pembayaran",'<select id="fy"><option value="dp">DP 50%</option><option value="full">Lunas 100%</option></select>',"")}${fr("fs","Status",'<select id="fs"><option value="menunggu">Menunggu Verifikasi</option><option value="terjadwal">Terjadwal</option></select>',"")}</div>
+ <div class="row"><button class="btn o" type="button" data-act="closem">Batal</button><button class="btn" type="submit">Simpan Booking</button></div></form>`);
+}
+function photoForm(){
+ openM(`<h3>Tambah Foto Portofolio</h3><p style="color:var(--mute);margin:0">Item baru langsung tampil di galeri website klien.</p>
+ <form data-form="photo" novalidate>
+ ${fr("pt","Judul",'<input id="pt" type="text" placeholder="Contoh: Golden Hour Wisuda">',"Judul minimal 3 huruf.")}
+ <div class="f2">${fr("pc","Kategori",`<select id="pc">${CATS.map(c=>`<option>${esc(c)}</option>`).join("")}</select>`,"")}${fr("pv","Tipe",'<select id="pv"><option value="0">Foto</option><option value="1">Video (thumbnail)</option></select>',"")}</div>
+ ${fr("pd","Durasi video (detik)",'<input id="pd" type="number" min="5" max="600" value="30">',"Isi durasi 5–600 detik.")}
+ ${fr("pu","URL Gambar",'<input id="pu" type="url" placeholder="https://images.unsplash.com/...">',"URL harus diawali http:// atau https://.")}
+ ${fr("pf","atau Upload Gambar (simulasi)",'<input id="pf" type="file" accept="image/*">',"Isi URL atau pilih file gambar.")}
+ <div class="row"><button class="btn o" type="button" data-act="closem">Batal</button><button class="btn" type="submit">Tambahkan</button></div></form>`);
+ $("#pd").closest(".fr").style.display="none";
+ $("#pv").onchange=()=>{$("#pd").closest(".fr").style.display=$("#pv").value==="1"?"grid":"none"};
+}
+function pkForm(id){
+ const p=DB.packages.find(x=>x.id===id);if(!p)return;
+ openM(`<h3>Edit Paket</h3>
+ <form data-form="pkg" data-id="${esc(id)}" novalidate>
+ ${fr("kn","Nama Paket",`<input id="kn" type="text" value="${esc(p.name)}">`,"Nama wajib diisi.")}
+ ${fr("kp","Harga (Rp)",`<input id="kp" type="number" min="1000" step="1000" value="${p.price}">`,"Harga minimal Rp 1.000.")}
+ ${fr("kd","Deskripsi singkat",`<input id="kd" type="text" value="${esc(p.desc)}">`,"")}
+ ${fr("kf","Fasilitas (satu per baris)",`<textarea id="kf" rows="6">${esc(p.features.join("\n"))}</textarea>`,"Isi minimal satu fasilitas.")}
+ <div class="row"><button class="btn o" type="button" data-act="closem">Batal</button><button class="btn" type="submit">Simpan Perubahan</button></div></form>`);
+}
+function readFile(f){return new Promise(res=>{const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,800/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);c.getContext("2d").drawImage(im,0,0,c.width,c.height);res(c.toDataURL("image/jpeg",.75))};im.onerror=()=>res(null);im.src=r.result};r.onerror=()=>res(null);r.readAsDataURL(f)})}
+const bad=(id,c)=>{$("#"+id).closest(".fr").classList.toggle("bad",c);return c};
+
+document.addEventListener("submit",async e=>{
+ const f=e.target.closest("[data-form]");if(!f)return;e.preventDefault();
+ const k=f.dataset.form;
+ if(k==="login"){
+  if($("#le").value.trim().toLowerCase()==="admin@terekam.web.id"&&$("#lp").value==="admin123"){enter()}
+  else{$("#lerr").textContent="Email atau password salah."}
+ }else if(k==="book"){
+  const nm=$("#fn").value.trim(),wa=$("#fw").value.replace(/[\s\-().+]/g,""),dt=$("#fd").value,lc=$("#fl").value.trim();
+  const er=[bad("fn",nm.length<3),bad("fw",!/^(62|0)8\d{7,11}$/.test(wa)),bad("fd",!dt||dt<addD(0)),bad("fl",lc.length<3)];
+  if(er.includes(true))return;
+  const p=DB.packages.find(x=>x.id===$("#fp").value),py=$("#fy").value,st=$("#fs").value,tm=$("#ft").value;
+  if(st==="terjadwal"){const cf=DB.bookings.find(x=>x.status==="terjadwal"&&x.dt===dt&&x.tm===tm);if(cf){toast(`Jadwal bentrok dengan #${cf.code} (${cf.nm})`,"e");return}}
+  const code=newCode();
+  DB.bookings.unshift({code,nm,wa:wa.replace(/^0/,"62"),ig:"",pkgKey:p.id,pkg:p.name,aos:[],total:p.price,paid:py==="dp"?p.price/2:p.price,py,dt,tm,lc,status:st,proof:"",created:new Date().toISOString(),src:"admin"});
+  if(!save())return;closeM();toast(`Booking #${code} berhasil ditambahkan`);S.bf="all";S.q="";$("#gq").value="";go("booking");
+ }else if(k==="photo"){
+  const t=$("#pt").value.trim(),u=$("#pu").value.trim(),file=$("#pf").files[0],vid=$("#pv").value==="1",d=+$("#pd").value;
+  const er=[bad("pt",t.length<3),bad("pd",vid&&!(d>=5&&d<=600)),bad("pu",u!==""&&!/^https?:\/\/\S+$/i.test(u)),bad("pf",!u&&!file)];
+  if(er.includes(true))return;
+  let img=u;
+  if(!u&&file){img=await readFile(file);if(!img){toast("File gambar tidak bisa dibaca","e");return}}
+  DB.portfolio.unshift({id:"p"+Date.now(),t,c:$("#pc").value,v:vid?1:0,d:vid?d:0,i:img});
+  if(!save()){DB.portfolio.shift();return}
+  closeM();toast(`"${t}" ditambahkan ke portofolio`);render();
+ }else if(k==="pkg"){
+  const p=DB.packages.find(x=>x.id===f.dataset.id),nm=$("#kn").value.trim(),pr=+$("#kp").value,ft=$("#kf").value.split("\n").map(s=>s.trim()).filter(Boolean);
+  const er=[bad("kn",!nm),bad("kp",!(pr>=1000)),bad("kf",!ft.length)];
+  if(er.includes(true))return;
+  p.name=nm;p.price=pr;p.desc=$("#kd").value.trim();p.features=ft;
+  if(!save())return;closeM();toast(`Paket "${nm}" berhasil diperbarui`);render();
+ }
+});
+
+/* ---------- Clicks ---------- */
+document.addEventListener("click",e=>{
+ const cl=e.target.closest("a.cl");if(cl){e.preventDefault();window.open(CLIENT,"_blank");return}
+ const t=e.target.closest("[data-act]");
+ if(!e.target.closest(".prof"))$("#dd").classList.remove("on");
+ if(e.target.id==="modal")closeM();
+ if(!t)return;
+ const a=t.dataset.act,c=t.dataset.c,cur=$("#mbody").dataset.c;
+ switch(a){
+  case"nav":go(t.dataset.v);break;
+  case"goto":go(t.dataset.v,t.dataset.f);break;
+  case"menu":$("#sb").classList.toggle("on");$("#scrim").classList.toggle("on");break;
+  case"profile":$("#dd").classList.toggle("on");e.stopPropagation();break;
+  case"quick":enter();break;
+  case"logout":localStorage.removeItem(AUTH);$("#app").classList.remove("on");$("#login").classList.add("on");$("#dd").classList.remove("on");$("#sb").classList.remove("on");$("#scrim").classList.remove("on");$("#lerr").textContent="";toast("Anda telah keluar dari dashboard");break;
+  case"reset":ask("Reset data demo?","Semua booking, portofolio, dan paket kembali ke data awal. Booking dari website klien juga ikut terhapus.","Reset Data",()=>{localStorage.removeItem(KEY);init();closeM();toast("Data demo dikembalikan ke awal");render()});break;
+  case"closem":closeM();break;
+  case"confirmok":{const f=confirmCb;if(f)f()}break;
+  case"tab":S.bf=t.dataset.f;fillBook();break;
+  case"detail":detail(c);break;
+  case"verify":accept(c);break;
+  case"accept":accept(cur);break;
+  case"paid":upd(cur,b=>{b.py="full";b.paid=b.total},`Pembayaran #${cur} ditandai Lunas`);break;
+  case"done":upd(cur,b=>{b.status="selesai"},`Sesi #${cur} ditandai selesai`);break;
+  case"cancel":{const k=cur;ask("Batalkan booking?",`Booking #${k} akan ditandai Dibatalkan dan jadwalnya dilepas.`,"Ya, Batalkan",()=>{closeM();upd(k,b=>{b.status="batal"},`Booking #${k} dibatalkan`)})}break;
+  case"askdel":{const k=c;ask("Hapus booking?",`Booking #${k} akan dihapus permanen dari daftar.`,"Hapus",()=>{DB.bookings=DB.bookings.filter(b=>b.code!==k);if(save()){closeM();toast(`Booking #${k} dihapus`);render()}})}break;
+  case"newbook":bookForm();break;
+  case"calprev":{const s=S.cal;s.m--;if(s.m<0){s.m=11;s.y--}render()}break;
+  case"calnext":{const s=S.cal;s.m++;if(s.m>11){s.m=0;s.y++}render()}break;
+  case"caltoday":{const n=new Date();S.cal={y:n.getFullYear(),m:n.getMonth(),sel:addD(0)};render()}break;
+  case"calsel":S.cal.sel=t.dataset.d;render();break;
+  case"pfilter":S.pf=t.dataset.f;render();break;
+  case"padd":photoForm();break;
+  case"pdel":{const p=DB.portfolio.find(x=>x.id===t.dataset.id);if(p)ask("Hapus dari portofolio?",`"${esc(p.t)}" akan hilang dari galeri website klien.`,"Hapus",()=>{DB.portfolio=DB.portfolio.filter(x=>x.id!==p.id);if(save()){closeM();toast(`"${p.t}" dihapus dari portofolio`);render()}})}break;
+  case"pkedit":pkForm(t.dataset.id);break;
+ }
+});
+document.addEventListener("input",e=>{
+ if(e.target.id==="gq"){S.q=e.target.value;if(S.view!=="booking"){S.bf="all";go("booking");$("#gq").focus()}else fillBook();const b=$("#bq");if(b)b.value=S.q}
+ else if(e.target.id==="bq"){S.q=e.target.value;$("#gq").value=S.q;fillBook()}
+});
+document.addEventListener("error",e=>{const i=e.target;if(i.tagName==="IMG"&&i.hasAttribute("data-fb")&&!i.dataset.done){i.dataset.done=1;i.src=PH}},true);
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){if($("#modal").classList.contains("on"))closeM();$("#sb").classList.remove("on");$("#scrim").classList.remove("on");$("#dd").classList.remove("on")}});
+
+/* ---------- Sync dengan website klien ---------- */
+function sync(){
+ const old=new Set(DB.bookings.map(b=>b.code));
+ const fresh=load();
+ if(!fresh.bookings)return;
+ DB=Object.assign(DB,fresh);
+ const nb=DB.bookings.filter(b=>!old.has(b.code));
+ nb.forEach(b=>toast(`Booking baru masuk: #${b.code} · ${b.nm}`));
+ render();
+}
+window.addEventListener("storage",e=>{if(e.key===KEY&&localStorage.getItem(AUTH)==="1")sync()});
+if(bc)bc.onmessage=()=>{if(localStorage.getItem(AUTH)==="1")sync()};
+
+/* Jembatan postMessage: booking dari website klien yang dibuka lewat tombol "Lihat Website Klien" */
+window.addEventListener("message",e=>{
+ const d=e.data;if(!d||d.terekam!=="booking"||!d.b||typeof d.b.code!=="string")return;
+ const b=d.b;if(!/^\d{4}-\d{2}-\d{2}$/.test(String(b.dt)))return;
+ const f=load();if(f.bookings)DB.bookings=f.bookings;
+ if(get(b.code))return;
+ DB.bookings.unshift({code:String(b.code),nm:String(b.nm||""),wa:String(b.wa||""),ig:String(b.ig||""),pkgKey:String(b.pkgKey||""),pkg:String(b.pkg||""),aos:Array.isArray(b.aos)?b.aos.map(String):[],total:+b.total||0,paid:+b.paid||0,py:b.py==="full"?"full":"dp",dt:String(b.dt),tm:String(b.tm||""),lc:String(b.lc||""),status:"menunggu",proof:String(b.proof||""),created:String(b.created||new Date().toISOString()),src:"web"});
+ if(save()){toast(`Booking baru masuk: #${b.code} · ${b.nm}`);render()}
+});
+
+/* ---------- Start ---------- */
+function enter(){
+ localStorage.setItem(AUTH,"1");
+ $("#login").classList.remove("on");$("#app").classList.add("on");
+ init();render();toast("Selamat datang, Admin Raka");
+}
+$("#burger").innerHTML=ic("menu");
+$("#sbox").insertAdjacentHTML("afterbegin",ic("search"));
+$("#siteLink").innerHTML=ic("ext")+"Lihat Website Klien";
+$("#outBtn").innerHTML=ic("out")+"Keluar";
+$("#ddSite").innerHTML=ic("ext")+"Lihat Website Klien";
+$("#ddReset").innerHTML=ic("reset")+"Reset Data Demo";
+$("#ddOut").innerHTML=ic("out")+"Keluar";
+init();
+if(localStorage.getItem(AUTH)==="1"){$("#login").classList.remove("on");$("#app").classList.add("on");render()}
+})();
+</script>
+</body>
+</html>
